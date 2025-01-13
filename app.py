@@ -72,3 +72,47 @@ st.markdown("""
 This app is part of a research project evaluating the performance of neural network models in cross-language code translation.
 The results are based on two metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
 """)
+# Divider
+st.markdown("---")
+st.markdown("### Live Code Translation")
+
+# Layout for input and output columns
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Input Code")
+    input_code = st.text_area("Paste the code to be translated here:", height=200)
+
+    # Dropdown to select translation scenario
+    translation_option = st.radio(
+        "Choose Translation Scenario:",
+        ["JavaScript → C++", "Python → Java"]
+    )
+
+with col2:
+    st.subheader("Translated Code")
+    if st.button("Translate"):
+        if input_code.strip():
+            try:
+                # Prompt for GPT-4 model
+                if translation_option == "JavaScript → C++":
+                    prompt = f"Translate the following JavaScript code to C++:\n\n{input_code}"
+                elif translation_option == "Python → Java":
+                    prompt = f"Translate the following Python code to Java:\n\n{input_code}"
+                
+                # GPT-4 API call
+                response = openai.Completion.create(
+                    engine="gpt-4",
+                    prompt=prompt,
+                    max_tokens=500,
+                    temperature=0.7
+                )
+                translated_code = response.choices[0].text.strip()
+                st.text_area("Output Code:", translated_code, height=200)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.warning("Please paste some code in the input box before translating.")
+
+# Footer
+st.markdown("---")
