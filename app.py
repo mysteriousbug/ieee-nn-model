@@ -2,6 +2,10 @@ import streamlit as st
 
 # Title and Introduction
 st.title("Cross-Language Code Translation Models")
+st.markdown("""
+This app evaluates the performance of three neural network models for cross-language code translation: 
+**TransCoder**, **CodeT5**, and **CodeBERT**. Select a model and a metric to view its performance.
+""")
 
 # Dropdown for selecting a model
 model = st.selectbox(
@@ -40,6 +44,31 @@ if model:
         st.subheader(f"Overall Execution Score (OES) for {model}")
         
         if model == "TransCoder":
-            st.write("""
+           st.write("""
             - Error Rate: **4.2%**
-            - Execution Time: **
+            - Execution Time: **1.8s**
+            - Memory Usage: **450 MB**
+            - **OES: 82.4**
+            """)
+        elif model == "CodeT5":
+            st.write("""
+            - Error Rate: **5.1%**
+            - Execution Time: **2.0s**
+            - Memory Usage: **480 MB**
+            - **OES: 78.9**
+            """)
+        elif model == "CodeBERT":
+            st.write("""
+            - Error Rate: **6.3%**
+            - Execution Time: **2.4s**
+            - Memory Usage: **500 MB**
+            - **OES: 72.5**
+            """)
+
+# Footer
+st.markdown("---")
+st.markdown("### About")
+st.markdown("""
+This app is part of a research project evaluating the performance of neural network models in cross-language code translation.
+The results are based on two metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
+""")
