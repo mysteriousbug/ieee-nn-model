@@ -2,10 +2,6 @@ import streamlit as st
 
 # Title and Introduction
 st.title("Cross-Language Code Translation Models")
-st.markdown("""
-This app evaluates the performance of three neural network models for cross-language code translation: 
-**TransCoder**, **CodeT5**, and **CodeBERT**. Select a model and a metric to view its performance.
-""")
 
 # Dropdown for selecting a model
 model = st.selectbox(
