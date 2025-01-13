@@ -67,13 +67,6 @@ if model:
 
 # Footer
 st.markdown("---")
-st.markdown("### About")
-st.markdown("""
-This app is part of a research project evaluating the performance of neural network models in cross-language code translation.
-The results are based on two metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
-""")
-# Divider
-st.markdown("---")
 st.markdown("### Live Code Translation")
 
 # Layout for input and output columns
@@ -115,4 +108,11 @@ with col2:
             st.warning("Please paste some code in the input box before translating.")
 
 # Footer
+st.markdown("---")
+st.markdown("### About")
+st.markdown("""
+This app is part of a research project evaluating the performance of neural network models in cross-language code translation.
+The results are based on two metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
+""")
+# Divider
 st.markdown("---")
