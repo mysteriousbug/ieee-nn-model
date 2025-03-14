@@ -59,7 +59,7 @@ if model:
             - **OES: 68.6**
             """)
 
-   elif metric == "Precision":
+    elif metric == "Precision":
         st.subheader(f"Precision for {model}")
         
         if model == "TransCoder":
