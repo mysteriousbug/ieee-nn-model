@@ -20,7 +20,7 @@ model = st.selectbox(
 if model:
     metric = st.selectbox(
         f"Select a metric for {model}:",
-        ["Code Similarity Score (CSS)", "Overall Execution Score (OES)"]
+        ["Code Similarity Score (CSS)", "Overall Execution Score (OES)", "Precision", "Recall", "Exact Match"]
     )
     
     # Display results based on the selected model and metric
@@ -29,18 +29,18 @@ if model:
         
         if model == "TransCoder":
             st.write("""
-            - Python → Java: **85.2**
-            - JavaScript → C++: **82.0**
+            - Python → Java: **24.2**
+            - Java → C++: **61.0**
             """)
         elif model == "CodeT5":
             st.write("""
-            - Python → Java: **83.0**
-            - JavaScript → C++: **79.8**
+            - Python → Java: **65.0**
+            - Java → C++: **69.8**
             """)
         elif model == "CodeBERT":
             st.write("""
-            - Python → Java: **76.5**
-            - JavaScript → C++: **73.8**
+            - Python → Java: **60.5**
+            - Java → C++: **62.8**
             """)
 
     elif metric == "Overall Execution Score (OES)":
@@ -48,85 +48,151 @@ if model:
         
         if model == "TransCoder":
            st.write("""
-            - Error Rate: **4.2%**
-            - Execution Time: **1.8s**
-            - Memory Usage: **450 MB**
-            - **OES: 82.4**
+            - **OES: 65.4**
             """)
         elif model == "CodeT5":
             st.write("""
-            - Error Rate: **5.1%**
-            - Execution Time: **2.0s**
-            - Memory Usage: **480 MB**
-            - **OES: 78.9**
+            - **OES: 72.4**
             """)
         elif model == "CodeBERT":
             st.write("""
-            - Error Rate: **6.3%**
-            - Execution Time: **2.4s**
-            - Memory Usage: **500 MB**
-            - **OES: 72.5**
+            - **OES: 68.6**
             """)
 
+   elif metric == "Precision":
+        st.subheader(f"Precision for {model}")
+        
+        if model == "TransCoder":
+            st.write("""
+            - Python → Java: **29.7**
+            - Java → C++: **75.4**
+            """)
+        elif model == "CodeT5":
+            st.write("""
+            - Python → Java: **70.1**
+            - Java → C++: **71.5**
+            """)
+        elif model == "CodeBERT":
+            st.write("""
+            - Python → Java: **60.6**
+            - Java → C++: **63.4**
+            """)
+
+    elif metric == "Recall":
+        st.subheader(f"Recall for {model}")
+        
+         if model == "TransCoder":
+            st.write("""
+            - Python → Java: **27.5**
+            - Java → C++: **73.1**
+            """)
+        elif model == "CodeT5":
+            st.write("""
+            - Python → Java: **70.8**
+            - Java → C++: **69.5**
+            """)
+        elif model == "CodeBERT":
+            st.write("""
+            - Python → Java: **58.3**
+            - Java → C++: **65.8**
+            """)
+
+   elif metric == "Exact Match":
+        st.subheader(f"Exact Match for {model}")
+        
+         if model == "TransCoder":
+            st.write("""
+            - Python → Java: **18.3**
+            - Java → C++: **22.6**
+            """)
+        elif model == "CodeT5":
+            st.write("""
+            - Python → Java: **63.2**
+            - Java → C++: **64.4**
+            """)
+        elif model == "CodeBERT":
+            st.write("""
+            - Python → Java: **53.1**
+            - Java → C++: **55.4**
+            """)
+    
 # Hardcoded Python multithreading function
 python_code = """
-import threading
+import concurrent.futures
 
-def print_numbers():
-    for i in range(5):
-        print(i)
+# Define a dictionary with two numbers
+data = {'a': 10, 'b': 5}
 
-thread = threading.Thread(target=print_numbers)
-thread.start()
-thread.join()
+# Define arithmetic operations
+def add():
+    return data['a'] + data['b']
+
+def subtract():
+    return data['a'] - data['b']
+
+def multiply():
+    return data['a'] * data['b']
+
+def divide():
+    return data['a'] / data['b'] if data['b'] != 0 else "Division by zero"
+
+# Function mapping
+operations = {
+    'Addition': add,
+    'Subtraction': subtract,
+    'Multiplication': multiply,
+    'Division': divide
+}
+
+# Execute operations in parallel and store results in a dictionary
+results = {}
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    future_to_operation = {executor.submit(func): name for name, func in operations.items()}
+    for future in concurrent.futures.as_completed(future_to_operation):
+        results[future_to_operation[future]] = future.result()
+
+# Print results dictionary
+print(results)
 """
 
 # Hardcoded translated Java code with errors
 translated_java_code = {
     "TransCoder": """
-import java.lang.Thread;
+import java.util.concurrent.*;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        Thread thread = new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i);
-            }
-        });
-        thread.start();
-        thread.join(); // Error: join needs try-catch
+        HashMap<String, Integer> data = new HashMap<>();
+        data.put("a", 10);
+        data.put("b", 5);
+
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        Future<Integer> add = executor.submit(() -> data.get("a") + data.get("b"));
+        Future<Integer> subtract = executor.submit(() -> data.get("a") - data.get("b"));
+        Future<Integer> multiply = executor.submit(() -> data.get("a") * data.get("b"));
+        Future<Integer> divide = executor.submit(() -> data.get("b") != 0 ? data.get("a") / data.get("b") : null); // Error: Null return type
+
+        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
+        executor.shutdown();
     }
 }
 """,
     "CodeT5": """
-import java.util.concurrent;
+import java.util.concurrent.*;
 
 public class Main {
     public static void main(String[] args) {
-        Thread thread = new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i);
-            }
-        });
-        thread.start();
-        thread.join(); // Error: join needs try-catch
-    }
-}
-""",
-    "CodeBERT": """
-import java.lang.Thread;
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        int a = 10, b = 5;
 
-class Main {
-    public static void main(String[] args) {
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                for (int i = 0; i < 5; i++) {
-                    System.out.println(i);
-                }
-            }
-        });
-        thread.start();
-        thread.join(); // Error: Missing try-catch
+        Future<Integer> add = executor.submit(() -> a + b);
+        Future<Integer> subtract = executor.submit(() -> a - b);
+        Future<Integer> multiply = executor.submit(() -> a * b);
+        Future<Integer> divide = executor.submit(() -> a / b); // Error: No zero check
+
+        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
+        executor.shutdown();
     }
 }
 """
@@ -134,19 +200,20 @@ class Main {
 
 # Corrected Java Code
 corrected_java_code = """
+import java.util.concurrent.*;
+
 public class Main {
-    public static void main(String[] args) {
-        Thread thread = new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i);
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws Exception {
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        int a = 10, b = 5;
+
+        Future<Integer> add = executor.submit(() -> a + b);
+        Future<Integer> subtract = executor.submit(() -> a - b);
+        Future<Integer> multiply = executor.submit(() -> a * b);
+        Future<Integer> divide = executor.submit(() -> b != 0 ? a / b : null);
+
+        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + (divide.get() != null ? divide.get() : "Division by zero"));
+        executor.shutdown();
     }
 }
 """
