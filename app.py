@@ -79,7 +79,8 @@ with col1:
     # Dropdown to select translation scenario
     translation_option = st.radio(
         "Choose Translation Scenario:",
-        ["JavaScript → C++", "Python → Java"]
+       # ["JavaScript → C++", "Python → Java"]
+        ["Python → Java"]
     )
 
 with col2:
@@ -94,14 +95,15 @@ with col2:
                     prompt = f"Translate the following Python code to Java:\n\n{input_code}"
                 
                 # GPT-4 API call
-                response = openai.Completion.create(
-                    engine="gpt-4",
-                    prompt=prompt,
-                    max_tokens=500,
-                    temperature=0.7
-                )
-                translated_code = response.choices[0].text.strip()
-                st.text_area("Output Code:", translated_code, height=200)
+              #  response = openai.Completion.create(
+               #     engine="gpt-4",
+                #    prompt=prompt,
+                 #   max_tokens=500,
+                  #  temperature=0.7
+                #)
+                #translated_code = response.choices[0].text.strip()
+                #st.text_area("Output Code:", translated_code, height=200)
+            st.text_area("Output Code:", "System.Out.Println(a+b)", height=200)
             except Exception as e:
                 st.error(f"An error occurred: {e}")
         else:
