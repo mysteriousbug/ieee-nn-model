@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.set_page_config(layout="wide")
+
 # Title and Introduction
 st.title("Cross-Language Code Translation Models")
 st.markdown("""
