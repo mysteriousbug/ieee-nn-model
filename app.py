@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 st.markdown("""
 ### Authors:
-**Amrutha Muralidhar, Ananya Aithal, G Sanjana Hebbar, Dr. Kavitha Sooda**
+**Amrutha Muralidhar,  Ananya Aithal,  G Sanjana Hebbar,  Dr. Kavitha Sooda**\n
 Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
 """)
 
