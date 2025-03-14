@@ -81,7 +81,7 @@ if model:
     elif metric == "Recall":
         st.subheader(f"Recall for {model}")
         
-         if model == "TransCoder":
+        if model == "TransCoder":
             st.write("""
             - Python → Java: **27.5**
             - Java → C++: **73.1**
@@ -100,7 +100,7 @@ if model:
    elif metric == "Exact Match":
         st.subheader(f"Exact Match for {model}")
         
-         if model == "TransCoder":
+        if model == "TransCoder":
             st.write("""
             - Python → Java: **18.3**
             - Java → C++: **22.6**
