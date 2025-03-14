@@ -7,12 +7,8 @@ st.set_page_config(layout="wide")
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 st.markdown("""
 ### Authors:
-**Amrutha Muralidhar, Ananya Aithal, Kavitha Sooda, G Sanjana Hebbar**
+**Amrutha Muralidhar, Ananya Aithal, G Sanjana Hebbar, Dr. Kavitha Sooda**
 Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
-
-This application evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for automated code translation. It compares these models based on **Code Similarity Score (CSS)** and **Overall Execution Score (OES)** to determine their accuracy and efficiency in translating Python to Java and Java to C++.
-
-The results offer insights into the strengths and weaknesses of each model, helping developers, researchers, and educators optimize translation accuracy and performance.
 """)
 
 # Abstract
@@ -244,3 +240,157 @@ with col3:
     st.subheader("Corrected Java Code")
     st.code(corrected_java_code, language="java")
 
+# Hardcoded Java multithreading function
+java_code = """
+import java.util.*;
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        Map<String, Integer> data = new HashMap<>();
+        data.put("A", 10);
+        data.put("B", 20);
+        data.put("C", 30);
+
+        List<Future<Integer>> results = new ArrayList<>();
+        for (String key : data.keySet()) {
+            results.add(executor.submit(() -> data.get(key) * 2));
+        }
+
+        try {
+            for (Future<Integer> result : results) {
+                System.out.println(result.get());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
+    }
+}
+"""
+
+# Hardcoded translated C++ code with errors
+translated_cpp_code = {
+    "TransCoder": """
+#include <iostream>
+#include <thread>
+#include <future>
+#include <unordered_map>
+using namespace std;
+
+int compute(int value) {
+    return value * 2;
+}
+
+int main() {
+    unordered_map<string, int> data = { {"A", 10}, {"B", 20}, {"C", 30} };
+    vector<future<int>> results;
+
+    for (auto pair : data) {
+        results.push_back(async(launch::async, compute, pair.second));
+    }
+
+    for (auto& result : results) {
+        cout << result.get() << endl;
+    }
+
+    return 0;
+}
+""",  # Missing proper thread management and incorrect use of string keys in unordered_map
+
+    "CodeT5": """
+#include <iostream>
+#include <map>
+#include <future>
+using namespace std;
+
+int multiply(int x) { return x * 2; }
+
+int main() {
+    map<string, int> data = { {"A", 10}, {"B", 20}, {"C", 30} };
+    vector<future<int>> results;
+
+    for (auto &[key, value] : data) {
+        results.push_back(async(launch::async, multiply, value));
+    }
+
+    for (auto &result : results) {
+        cout << result.get() << endl;
+    }
+
+    return 0;
+}
+""",  # Minor issues with unnecessary use of map instead of unordered_map
+
+    "CodeBERT": """
+#include <iostream>
+#include <unordered_map>
+#include <future>
+#include <vector>
+using namespace std;
+
+int doubleValue(int val) { return val * 2; }
+
+int main() {
+    unordered_map<string, int> data = { {"A", 10}, {"B", 20}, {"C", 30} };
+    vector<future<int>> results;
+
+    for (const auto &entry : data) {
+        results.push_back(async(launch::async, doubleValue, entry.second));
+    }
+
+    for (auto &res : results) {
+        cout << res.get() << endl;
+    }
+
+    return 0;
+}
+"""  # Uses better syntax but lacks exception handling
+}
+
+# Corrected C++ Code
+corrected_cpp_code = """
+#include <iostream>
+#include <unordered_map>
+#include <future>
+#include <vector>
+using namespace std;
+
+int doubleValue(int val) { return val * 2; }
+
+int main() {
+    unordered_map<string, int> data = { {"A", 10}, {"B", 20}, {"C", 30} };
+    vector<future<int>> results;
+
+    for (const auto &entry : data) {
+        results.push_back(async(launch::async, doubleValue, entry.second));
+    }
+
+    try {
+        for (auto &res : results) {
+            cout << res.get() << endl;
+        }
+    } catch (const exception &e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+
+    return 0;
+}
+"""
+
+# Display in three columns
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.subheader("Input Code (Java)")
+    st.code(java_code, language="java")
+
+with col2:
+    st.subheader(f"Translated C++ Code ({model})")
+    st.code(translated_cpp_code[model], language="cpp")
+
+with col3:
+    st.subheader("Corrected C++ Code")
+    st.code(corrected_cpp_code, language="cpp")
