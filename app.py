@@ -1,5 +1,6 @@
 import streamlit as st
 
+# Set wide layout
 st.set_page_config(layout="wide")
 
 # Title and Introduction
@@ -8,12 +9,6 @@ st.markdown("""
 This app evaluates the performance of three neural network models for cross-language code translation:
 **TransCoder**, **CodeT5**, and **CodeBERT**. Select a model to view its translated Java output.
 """)
-
-# Dropdown for selecting a model
-model = st.selectbox(
-    "Choose a model:",
-    ["TransCoder", "CodeT5", "CodeBERT"]
-)
 
 # Dropdown for selecting a model
 model = st.selectbox(
