@@ -4,10 +4,21 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 # Title and Introduction
-st.title("Cross-Language Code Translation Models")
+st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 st.markdown("""
-This app evaluates the performance of three neural network models for cross-language code translation:
-**TransCoder**, **CodeT5**, and **CodeBERT**. Select a model to view its translated Java output.
+### Authors:
+**Amrutha Muralidhar, Ananya Aithal, Kavitha Sooda, G Sanjana Hebbar**
+Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
+
+This application evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for automated code translation. It compares these models based on **Code Similarity Score (CSS)** and **Overall Execution Score (OES)** to determine their accuracy and efficiency in translating Python to Java and Java to C++.
+
+The results offer insights into the strengths and weaknesses of each model, helping developers, researchers, and educators optimize translation accuracy and performance.
+""")
+
+# Abstract
+st.markdown("### Abstract")
+st.markdown("""
+This work evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**. Our findings indicate that **CodeT5** achieves the highest translation accuracy, while **TransCoder** struggles with semantic errors. **CodeBERT** performs reasonably well but faces challenges in complex control flow translations. These insights can guide the development of improved code translation models for software engineering and programming education.
 """)
 
 # Dropdown for selecting a model
@@ -233,9 +244,3 @@ with col3:
     st.subheader("Corrected Java Code")
     st.code(corrected_java_code, language="java")
 
-# Footer
-st.markdown("---")
-st.markdown("### About")
-st.markdown("""
-This app is part of a research project evaluating the performance of neural network models in cross-language code translation.
-""")
