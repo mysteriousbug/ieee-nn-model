@@ -616,9 +616,20 @@ elif st.session_state.selected_section == "Java to C++ Translation":
     
     # Dropdown to select the model
     model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
+    flag = 0
+    uploaded_file = st.file_uploader("Upload a Java code file", type=["java"])
     
-    # Hardcoded Python multithreading function
-    java_code = """
+    if uploaded_file is not None:
+        java_code = uploaded_file.getvalue().decode("utf-8")
+        progress_bar = st.progress(0)
+        
+        for percent_complete in range(101):
+            progress_bar.progress(percent_complete)
+        
+        st.success("Translation Complete!")
+        flag = 1
+    else:
+        java_code = """
 import java.util.*;
 
 // Interface for printable objects
@@ -1659,22 +1670,21 @@ int main() {
 }
 """
 
-    # Display in three sections
-    st.subheader("Input Java Code")
-    st.code(java_code, language="java")
     
-    st.subheader(f"Translated C++ Code ({model})")
-    st.code(translated_cpp_code[model], language="cpp")
+    if flag == 1: 
+        st.code(java_code, language="java")
     
-    st.subheader("Corrected C++ Code")
-    st.code(corrected_cpp_code, language="cpp")
+        st.subheader(f"Translated C++ Code ({model})")
+        st.code(translated_cpp_code[model], language="cpp")
+    
+        st.subheader("Corrected C++ Code")
+        st.code(corrected_cpp_code, language="cpp")
 
-        # Apply CSS for fixed height and scrollbar
-    st.markdown("""
-        <style>
-        pre {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+        st.markdown("""
+            <style>
+            pre {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            </style>
+        """, unsafe_allow_html=True)
