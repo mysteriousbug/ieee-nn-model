@@ -260,25 +260,321 @@ public class MultiThreadingExample {
 }
 """,
         "CodeT5": """
-public class Main {
+import java.util.concurrent.*;
+import java.util.Random;
+
+public class MultiThreadingExample {
+    private static final int NUM_WORKERS = 5;
+    private static final int TASKS_PER_WORKER = 3;
+    private static final int TASK_COMPLETION_TIME_MIN = 1;
+    private static final int TASK_COMPLETION_TIME_MAX = 5;
+
+    private static BlockingQueue<Integer> taskQueue = new LinkedBlockingQueue<>();
+    private static final Object printLock = new Object();
+
+    static class Worker implements Runnable {
+        private int workerId;
+
+        public Worker(int workerId) {
+            this.workerId = workerId;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    Integer task = taskQueue.take();
+                    if (task == null) {
+                        break;
+                    }
+
+                    Random rand = new Random();
+                    int processingTime = rand.nextInt(TASK_COMPLETION_TIME_MAX - TASK_COMPLETION_TIME_MIN + 1) + TASK_COMPLETION_TIME_MIN;
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " is processing task " + task + " (will take " + processingTime + " seconds)");
+                    }
+
+                    Thread.sleep(processingTime * 1000);
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " completed task " + task);
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static class Manager implements Runnable {
+        @Override
+        public void run() {
+            try {
+                for (int taskId = 1; taskId <= NUM_WORKERS * TASKS_PER_WORKER; taskId++) {
+                    taskQueue.put(taskId);
+                    synchronized (printLock) {
+                        System.out.println("Manager assigned task " + taskId);
+                    }
+                }
+
+                taskQueue.join(); // Incorrect usage: BlockingQueue doesn't have a join() method
+
+                synchronized (printLock) {
+                    System.out.println("All tasks have been completed.");
+                }
+
+                for (int i = 0; i < NUM_WORKERS; i++) {
+                    taskQueue.put(null); // Signal workers to exit
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Translated code by CodeT5");
+        Thread[] workers = new Thread[NUM_WORKERS];
+        for (int i = 0; i < NUM_WORKERS; i++) {
+            workers[i] = new Thread(new Worker(i + 1));
+            workers[i].start();
+        }
+
+        Thread managerThread = new Thread(new Manager());
+        managerThread.start();
+
+        for (Thread worker : workers) {
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            managerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All workers and manager have finished.");
     }
 }
 """,
         "CodeBERT": """
-public class Main {
+import java.util.concurrent.*;
+import java.util.Random;
+
+public class MultiThreadingExample {
+    private static final int NUM_WORKERS = 5;
+    private static final int TASKS_PER_WORKER = 3;
+    private static final int TASK_COMPLETION_TIME_MIN = 1;
+    private static final int TASK_COMPLETION_TIME_MAX = 5;
+
+    private static BlockingQueue<Integer> taskQueue = new LinkedBlockingQueue<>();
+    private static final Object printLock = new Object();
+
+    static class Worker implements Runnable {
+        private int workerId;
+
+        public Worker(int workerId) {
+            this.workerId = workerId;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (!taskQueue.isEmpty()) { // Incorrect: Workers may exit prematurely
+                    Integer task = taskQueue.poll(); // Incorrect: Should use take() instead of poll()
+                    if (task == null) {
+                        continue; // Incorrect: Should break or handle null properly
+                    }
+
+                    Random rand = new Random();
+                    int processingTime = rand.nextInt(TASK_COMPLETION_TIME_MAX) + TASK_COMPLETION_TIME_MIN; // Incorrect: Range calculation is wrong
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " is processing task " + task + " (will take " + processingTime + " seconds)");
+                    }
+
+                    Thread.sleep(processingTime); // Incorrect: Missing multiplication by 1000 for milliseconds
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " completed task " + task);
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static class Manager implements Runnable {
+        @Override
+        public void run() {
+            try {
+                for (int taskId = 1; taskId <= NUM_WORKERS * TASKS_PER_WORKER; taskId++) {
+                    taskQueue.put(taskId);
+                    synchronized (printLock) {
+                        System.out.println("Manager assigned task " + taskId);
+                    }
+                }
+
+                // Incorrect: No mechanism to wait for tasks to complete
+                while (!taskQueue.isEmpty()) {
+                    Thread.sleep(1000); // Busy-waiting is inefficient
+                }
+
+                synchronized (printLock) {
+                    System.out.println("All tasks have been completed.");
+                }
+
+                for (int i = 0; i < NUM_WORKERS; i++) {
+                    taskQueue.put(null); // Incorrect: Workers may not handle null properly
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Translated code by CodeBERT");
+        Thread[] workers = new Thread[NUM_WORKERS];
+        for (int i = 0; i < NUM_WORKERS; i++) {
+            workers[i] = new Thread(new Worker(i + 1));
+            workers[i].start();
+        }
+
+        Thread managerThread = new Thread(new Manager());
+        managerThread.start();
+
+        for (Thread worker : workers) {
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            managerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All workers and manager have finished.");
     }
 }
 """
     }
 
     corrected_java_code = """
-public class Main {
+import java.util.concurrent.*;
+import java.util.Random;
+
+public class MultiThreadingExample {
+    private static final int NUM_WORKERS = 5;
+    private static final int TASKS_PER_WORKER = 3;
+    private static final int TASK_COMPLETION_TIME_MIN = 1;
+    private static final int TASK_COMPLETION_TIME_MAX = 5;
+
+    private static BlockingQueue<Integer> taskQueue = new LinkedBlockingQueue<>();
+    private static final Object printLock = new Object();
+    private static CountDownLatch taskLatch; // To wait for all tasks to complete
+
+    static class Worker implements Runnable {
+        private int workerId;
+
+        public Worker(int workerId) {
+            this.workerId = workerId;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    Integer task = taskQueue.take(); // Wait for a task
+                    if (task == null) {
+                        break; // Exit if a null task is received
+                    }
+
+                    Random rand = new Random();
+                    int processingTime = rand.nextInt(TASK_COMPLETION_TIME_MAX - TASK_COMPLETION_TIME_MIN + 1) + TASK_COMPLETION_TIME_MIN;
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " is processing task " + task + " (will take " + processingTime + " seconds)");
+                    }
+
+                    Thread.sleep(processingTime * 1000); // Simulate task processing
+
+                    synchronized (printLock) {
+                        System.out.println("Worker " + workerId + " completed task " + task);
+                    }
+
+                    taskLatch.countDown(); // Signal that a task is completed
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static class Manager implements Runnable {
+        @Override
+        public void run() {
+            try {
+                for (int taskId = 1; taskId <= NUM_WORKERS * TASKS_PER_WORKER; taskId++) {
+                    taskQueue.put(taskId); // Add tasks to the queue
+                    synchronized (printLock) {
+                        System.out.println("Manager assigned task " + taskId);
+                    }
+                }
+
+                taskLatch.await(); // Wait for all tasks to complete
+
+                synchronized (printLock) {
+                    System.out.println("All tasks have been completed.");
+                }
+
+                // Signal workers to exit by adding null tasks
+                for (int i = 0; i < NUM_WORKERS; i++) {
+                    taskQueue.put(null);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Corrected Java Code");
+        taskLatch = new CountDownLatch(NUM_WORKERS * TASKS_PER_WORKER); // Initialize latch
+
+        Thread[] workers = new Thread[NUM_WORKERS];
+        for (int i = 0; i < NUM_WORKERS; i++) {
+            workers[i] = new Thread(new Worker(i + 1));
+            workers[i].start();
+        }
+
+        Thread managerThread = new Thread(new Manager());
+        managerThread.start();
+
+        // Wait for all worker threads to finish
+        for (Thread worker : workers) {
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Wait for the manager thread to finish
+        try {
+            managerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All workers and manager have finished.");
     }
 }
 """
