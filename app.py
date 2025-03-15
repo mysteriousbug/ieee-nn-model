@@ -24,7 +24,7 @@ model = st.selectbox(
 )
 
 # Dropdown for selecting a dataset
-model = st.selectbox(
+dataset = st.selectbox(
     "Choose a dataset:",
     ["CodeXGlue", "CodeSearchNet", "Conala"]
 )
