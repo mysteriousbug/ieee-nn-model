@@ -74,7 +74,7 @@ elif st.session_state.selected_section == "Results":
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Python to Java Translation":
     st.header("Python to Java Code Translation")
-    
+    flag = 0
     # Dropdown to select the model
     model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
     st.subheader("Input Python Code")
@@ -88,6 +88,7 @@ elif st.session_state.selected_section == "Python to Java Translation":
             progress_bar.progress(percent_complete)
         
         st.success("Translation Complete!")
+        flag = 1
     else:
         python_code = """
 import threading
@@ -589,24 +590,25 @@ public class MultiThreadingExample {
     }
 }
 """
-
-    st.code(python_code, language="python")
+    if flag == 1:
+         st.code(python_code, language="python")
     
-    st.subheader(f"Translated Java Code ({model})")
-    st.code(translated_java_code[model], language="java")
+        st.subheader(f"Translated Java Code ({model})")
+        st.code(translated_java_code[model], language="java")
     
-    st.subheader("Corrected Java Code")
-    st.code(corrected_java_code, language="java")
+        st.subheader("Corrected Java Code")
+        st.code(corrected_java_code, language="java")
 
-        # Apply CSS for fixed height and scrollbar
-    st.markdown("""
-        <style>
-        pre {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+        st.markdown("""
+            <style>
+            pre {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+        
+   
 
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Java to C++ Translation":
