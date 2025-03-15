@@ -77,6 +77,7 @@ elif st.session_state.selected_section == "Python to Java Translation":
     
     # Dropdown to select the model
     model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
+    uploaded_file = st.file_uploader("Upload a Python code file", type=["py"])
     
     # Hardcoded Python multithreading function
     python_code = """
@@ -1652,10 +1653,10 @@ int main() {
     st.subheader("Input Java Code")
     st.code(java_code, language="java")
     
-    st.subheader(f"Translated Java Code ({model})")
+    st.subheader(f"Translated C++ Code ({model})")
     st.code(translated_cpp_code[model], language="cpp")
     
-    st.subheader("Corrected Java Code")
+    st.subheader("Corrected C++ Code")
     st.code(corrected_cpp_code, language="cpp")
 
         # Apply CSS for fixed height and scrollbar
