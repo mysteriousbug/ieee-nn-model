@@ -72,7 +72,7 @@ elif st.session_state.selected_section == "Results":
         st.write(scores[metric][model])
 
 # Python to Java Translation Section
-elif section == "Python to Java Translation":
+elif st.session_state.selected_section == "Python to Java Translation":
     st.header("Python to Java Code Translation")
     
     # Dropdown to select the model
@@ -138,7 +138,7 @@ public class Main {
     st.code(corrected_java_code, language="java")
 
 # Python to Java Translation Section
-elif section == "Java to C++ Translation":
+elif st.session_state.selected_section == "Java to C++ Translation":
     st.header("Java to C++ Translation")
     
     # Dropdown to select the model
