@@ -71,61 +71,134 @@ elif st.session_state.selected_section == "Results":
         st.subheader(f"{metric} for {model}")
         st.write(scores[metric][model])
 
-elif st.session_state.selected_section == "Python to Java Translation":
-    st.subheader("Python to Java Code Translation")
-
-    # Python Code
+# Python to Java Translation Section
+elif section == "Python to Java Translation":
+    st.header("Python to Java Code Translation")
+    
+    # Dropdown to select the model
+    model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
+    
+    # Hardcoded Python multithreading function
     python_code = """
 import concurrent.futures
 
-data = {'a': 10, 'b': 5}
+def add(a, b):
+    return a + b
 
-def add():
-    return data['a'] + data['b']
+def subtract(a, b):
+    return a - b
 
-def subtract():
-    return data['a'] - data['b']
+def multiply(a, b):
+    return a * b
 
-def multiply():
-    return data['a'] * data['b']
-
-def divide():
-    return data['a'] / data['b'] if data['b'] != 0 else "Division by zero"
-
-operations = {
-    'Addition': add,
-    'Subtraction': subtract,
-    'Multiplication': multiply,
-    'Division': divide
-}
-
-results = {}
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    future_to_operation = {executor.submit(func): name for name, func in operations.items()}
-    for future in concurrent.futures.as_completed(future_to_operation):
-        results[future_to_operation[future]] = future.result()
-
-print(results)
+def divide(a, b):
+    return a / b if b != 0 else "Division by zero"
 """
-    st.code(python_code, language="python")
 
-    # Translated Java Code
-    translated_java_code = """
-import java.util.concurrent.*;
-
+    translated_java_code = {
+        "TransCoder": """
 public class Main {
-    public static void main(String[] args) throws Exception {
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        int a = 10, b = 5;
-
-        Future<Integer> add = executor.submit(() -> a + b);
-        Future<Integer> subtract = executor.submit(() -> a - b);
-        Future<Integer> multiply = executor.submit(() -> a * b);
-        Future<Integer> divide = executor.submit(() -> b != 0 ? a / b : null);
-
-        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + (divide.get() != null ? divide.get() : "Division by zero"));
-        executor.shutdown();
+    public static void main(String[] args) {
+        System.out.println("Translated code by TransCoder");
+    }
+}
+""",
+        "CodeT5": """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Translated code by CodeT5");
+    }
+}
+""",
+        "CodeBERT": """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Translated code by CodeBERT");
     }
 }
 """
-    st.code(translated_java_code, language="java")
+    }
+
+    corrected_java_code = """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Corrected Java Code");
+    }
+}
+"""
+
+    # Display in three sections
+    st.subheader("Input Python Code")
+    st.code(python_code, language="python")
+    
+    st.subheader(f"Translated Java Code ({model})")
+    st.code(translated_java_code[model], language="java")
+    
+    st.subheader("Corrected Java Code")
+    st.code(corrected_java_code, language="java")
+
+# Python to Java Translation Section
+elif section == "Java to C++ Translation":
+    st.header("Java to C++ Translation")
+    
+    # Dropdown to select the model
+    model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
+    
+    # Hardcoded Python multithreading function
+    python_code = """
+import concurrent.futures
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    return a / b if b != 0 else "Division by zero"
+"""
+
+    translated_java_code = {
+        "TransCoder": """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Translated code by TransCoder");
+    }
+}
+""",
+        "CodeT5": """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Translated code by CodeT5");
+    }
+}
+""",
+        "CodeBERT": """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Translated code by CodeBERT");
+    }
+}
+"""
+    }
+
+    corrected_java_code = """
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Corrected Java Code");
+    }
+}
+"""
+
+    # Display in three sections
+    st.subheader("Input Python Code")
+    st.code(python_code, language="python")
+    
+    st.subheader(f"Translated Java Code ({model})")
+    st.code(translated_java_code[model], language="java")
+    
+    st.subheader("Corrected Java Code")
+    st.code(corrected_java_code, language="java")
