@@ -166,40 +166,106 @@ print(results)
 translated_java_code = {
     "TransCoder": """
 import java.util.concurrent.*;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        HashMap<String, Integer> data = new HashMap<>();
-        data.put("a", 10);
-        data.put("b", 5);
+        // Error 1: Using a low-resource language pair (e.g., Python-like syntax in Java)
+        int[] numbers = {1, 2, 3, 4, 5};
+        int sum = 0;
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        Future<Integer> add = executor.submit(() -> data.get("a") + data.get("b"));
-        Future<Integer> subtract = executor.submit(() -> data.get("a") - data.get("b"));
-        Future<Integer> multiply = executor.submit(() -> data.get("a") * data.get("b"));
-        Future<Integer> divide = executor.submit(() -> data.get("b") != 0 ? data.get("a") / data.get("b") : null);
+        // Error 2: Misusing Python-like list comprehension syntax in Java
+        for (int num : numbers) {
+            sum += num;
+        }
 
-        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
+        // Error 3: Incorrectly translating Python's print function to Java
+        print("Sum: " + sum);
+
+        // Error 4: Attempting to use Python's threading module in Java
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.submit(() -> System.out.println("Thread 1"));
+        executor.submit(() -> System.out.println("Thread 2"));
         executor.shutdown();
+    }
+
+    // Error 5: Defining a Python-style print function in Java
+    public static void print(String message) {
+        System.out.println(message);
     }
 }
 """,
     "CodeT5": """
-import java.util.concurrent.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        int a = 10, b = 5;
+        // Error 1: Deeply nested logic that confuses the model
+        int x = 10;
+        int y = 5;
+        int result = 0;
 
-        Future<Integer> add = executor.submit(() -> a + b);
-        Future<Integer> subtract = executor.submit(() -> a - b);
-        Future<Integer> multiply = executor.submit(() -> a * b);
-        Future<Integer> divide = executor.submit(() -> a / b);
+        if (x > y) {
+            if (y != 0) {
+                if (x % y == 0) {
+                    if (x / y > 1) {
+                        result = x / y;
+                    } else {
+                        result = y / x;
+                    }
+                } else {
+                    result = x * y;
+                }
+            } else {
+                result = x + y;
+            }
+        } else {
+            result = x - y;
+        }
 
-        System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
-        executor.shutdown();
+        // Error 2: Incorrectly translating nested logic into a single line
+        System.out.println("Result: " + result);
+
+        // Error 3: Deeply nested loops that are poorly translated
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                for (int k = 0; k < 5; k++) {
+                    System.out.println(i + " " + j + " " + k);
+                }
+            }
+        }
+    }
+}
+""",
+ "CodeBERT": """
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Error 1: Misinterpreting complex control flow (e.g., Python's 'elif' in Java)
+        int x = 10;
+        int y = 5;
+
+        if (x > y) {
+            System.out.println("x is greater than y");
+        } elif (x == y) { // Error 2: Using Python's 'elif' instead of Java's 'else if'
+            System.out.println("x is equal to y");
+        } else {
+            System.out.println("x is less than y");
+        }
+
+        // Error 3: Misinterpreting abstract constructs like Python's lambda in Java
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        numbers.forEach(num -> {
+            if (num % 2 == 0) {
+                System.out.println(num + " is even");
+            } else {
+                System.out.println(num + " is odd");
+            }
+        });
+
+        // Error 4: Incorrectly translating Python's list slicing to Java
+        List<Integer> subList = numbers.subList(1, 3); // Error: Python-like slicing syntax
+        System.out.println("Sublist: " + subList);
     }
 }
 """
