@@ -617,6 +617,7 @@ elif st.session_state.selected_section == "Java to C++ Translation":
     # Dropdown to select the model
     model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
     flag = 0
+    st.subheader("Input Java Code")
     uploaded_file = st.file_uploader("Upload a Java code file", type=["java"])
     
     if uploaded_file is not None:
