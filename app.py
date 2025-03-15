@@ -178,7 +178,7 @@ public class Main {
         Future<Integer> add = executor.submit(() -> data.get("a") + data.get("b"));
         Future<Integer> subtract = executor.submit(() -> data.get("a") - data.get("b"));
         Future<Integer> multiply = executor.submit(() -> data.get("a") * data.get("b"));
-        Future<Integer> divide = executor.submit(() -> data.get("b") != 0 ? data.get("a") / data.get("b") : null); // Error: Null return type
+        Future<Integer> divide = executor.submit(() -> data.get("b") != 0 ? data.get("a") / data.get("b") : null);
 
         System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
         executor.shutdown();
@@ -196,7 +196,7 @@ public class Main {
         Future<Integer> add = executor.submit(() -> a + b);
         Future<Integer> subtract = executor.submit(() -> a - b);
         Future<Integer> multiply = executor.submit(() -> a * b);
-        Future<Integer> divide = executor.submit(() -> a / b); // Error: No zero check
+        Future<Integer> divide = executor.submit(() -> a / b);
 
         System.out.println("Results: " + add.get() + " " + subtract.get() + " " + multiply.get() + " " + divide.get());
         executor.shutdown();
