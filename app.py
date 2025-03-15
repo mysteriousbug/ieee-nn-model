@@ -589,6 +589,16 @@ public class MultiThreadingExample {
     st.subheader("Corrected Java Code")
     st.code(corrected_java_code, language="java")
 
+        # Apply CSS for fixed height and scrollbar
+    st.markdown("""
+        <style>
+        pre {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Java to C++ Translation":
     st.header("Java to C++ Translation")
