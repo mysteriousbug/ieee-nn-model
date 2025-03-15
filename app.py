@@ -43,17 +43,17 @@ if model:
         if model == "TransCoder":
             st.write("""
             - Python → Java: **24.2**
-            - Java → C++: **61.0**
+            # - Java → C++: **61.0**
             """)
         elif model == "CodeT5":
             st.write("""
             - Python → Java: **65.0**
-            - Java → C++: **69.8**
+            # - Java → C++: **69.8**
             """)
         elif model == "CodeBERT":
             st.write("""
             - Python → Java: **60.5**
-            - Java → C++: **62.8**
+            # - Java → C++: **62.8**
             """)
 
     elif metric == "Overall Execution Score (OES)":
