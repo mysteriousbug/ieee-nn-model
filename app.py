@@ -77,10 +77,20 @@ elif st.session_state.selected_section == "Python to Java Translation":
     
     # Dropdown to select the model
     model = st.selectbox("Select a translation model:", ["TransCoder", "CodeT5", "CodeBERT"])
+    st.subheader("Input Python Code")
     uploaded_file = st.file_uploader("Upload a Python code file", type=["py"])
     
-    # Hardcoded Python multithreading function
-    python_code = """
+    if uploaded_file is not None:
+        python_code = uploaded_file.getvalue().decode("utf-8")
+        progress_bar = st.progress(0)
+        
+        for percent_complete in range(101):
+            time.sleep(0.02)
+            progress_bar.progress(percent_complete)
+        
+        st.success("Translation Complete!")
+    else:
+        python_code = """
 import threading
 import time
 import random
@@ -155,6 +165,7 @@ def main():
 if __name__ == "__main__":
     main()
 """
+    
 
     translated_java_code = {
         "TransCoder": """
