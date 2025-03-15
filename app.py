@@ -593,20 +593,20 @@ public class MultiThreadingExample {
     if flag == 1:
          st.code(python_code, language="python")
     
-        st.subheader(f"Translated Java Code ({model})")
-        st.code(translated_java_code[model], language="java")
+         st.subheader(f"Translated Java Code ({model})")
+         st.code(translated_java_code[model], language="java")
     
-        st.subheader("Corrected Java Code")
-        st.code(corrected_java_code, language="java")
+         st.subheader("Corrected Java Code")
+         st.code(corrected_java_code, language="java")
 
-        st.markdown("""
-            <style>
-            pre {
-                max-height: 300px;
-                overflow-y: auto;
-            }
-            </style>
-        """, unsafe_allow_html=True)
+         st.markdown("""
+             <style>
+             pre {
+                 max-height: 300px;
+                 overflow-y: auto;
+             }
+             </style>
+         """, unsafe_allow_html=True)
         
    
 
