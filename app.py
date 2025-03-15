@@ -3,20 +3,51 @@ import streamlit as st
 # Set wide layout
 st.set_page_config(layout="wide")
 
-# Sidebar for navigation (Top-right alternative)
-st.sidebar.title("Navigation")
-tab = st.sidebar.radio("Go to:", ["Python Code", "Translated Java Code", "Corrected Java Code"])
+# Initialize session state for navigation
+if 'selected_section' not in st.session_state:
+    st.session_state.selected_section = "Introduction"
 
-# Display content based on the selected tab
-if tab == "Python Code":
-    st.subheader("Input Code (Python)")
+# Sidebar navigation with buttons
+st.sidebar.title("Navigation")
+if st.sidebar.button("Introduction"):
+    st.session_state.selected_section = "Introduction"
+if st.sidebar.button("Results"):
+    st.session_state.selected_section = "Results"
+if st.sidebar.button("Python to Java Translation"):
+    st.session_state.selected_section = "Python to Java Translation"
+
+# Display content based on the selected section
+st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
+
+if st.session_state.selected_section == "Introduction":
+    st.markdown("""
+    ### Authors:
+    **Amrutha Muralidhar, Ananya Aithal, G Sanjana Hebbar, Kavitha Sooda**  
+    Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
+    """)
+    
+    st.markdown("### Abstract")
+    st.markdown("""
+    This work evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
+    """)
+
+elif st.session_state.selected_section == "Results":
+    st.subheader("Results: Model Performance")
+    st.markdown("""
+    - **CodeT5** achieves the highest translation accuracy.
+    - **TransCoder** struggles with semantic errors.
+    - **CodeBERT** performs reasonably well but faces challenges in complex control flow translations.
+    """)
+
+elif st.session_state.selected_section == "Python to Java Translation":
+    st.subheader("Python to Java Code Translation")
+
+    # Python Code
     python_code = """
 import concurrent.futures
 
-# Define a dictionary with two numbers
 data = {'a': 10, 'b': 5}
 
-# Define arithmetic operations
 def add():
     return data['a'] + data['b']
 
@@ -29,7 +60,6 @@ def multiply():
 def divide():
     return data['a'] / data['b'] if data['b'] != 0 else "Division by zero"
 
-# Function mapping
 operations = {
     'Addition': add,
     'Subtraction': subtract,
@@ -37,46 +67,18 @@ operations = {
     'Division': divide
 }
 
-# Execute operations in parallel and store results in a dictionary
 results = {}
 with concurrent.futures.ThreadPoolExecutor() as executor:
     future_to_operation = {executor.submit(func): name for name, func in operations.items()}
     for future in concurrent.futures.as_completed(future_to_operation):
         results[future_to_operation[future]] = future.result()
 
-# Print results dictionary
 print(results)
 """
     st.code(python_code, language="python")
 
-elif tab == "Translated Java Code":
-    st.subheader("Translated Java Code")
+    # Translated Java Code
     translated_java_code = """
-import java.util.concurrent.*;
-
-public class Main {
-    public static void main(String[] args) {
-        int[] numbers = {1, 2, 3, 4, 5};
-        int sum = 0;
-
-        for (int num : numbers) {
-            sum += num;
-        }
-
-        System.out.println("Sum: " + sum);
-
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(() -> System.out.println("Addition"));
-        executor.submit(() -> System.out.println("Subtraction"));
-        executor.shutdown();
-    }
-}
-"""
-    st.code(translated_java_code, language="java")
-
-elif tab == "Corrected Java Code":
-    st.subheader("Corrected Java Code")
-    corrected_java_code = """
 import java.util.concurrent.*;
 
 public class Main {
@@ -94,4 +96,4 @@ public class Main {
     }
 }
 """
-    st.code(corrected_java_code, language="java")
+    st.code(translated_java_code, language="java")
