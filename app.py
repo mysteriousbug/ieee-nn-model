@@ -33,7 +33,8 @@ if st.session_state.selected_section == "Introduction":
     This work evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
     """)
 
- st.header("Model Evaluation")
+elif st.session_state.selected_section == "Results": 
+    st.header("Model Evaluation")
     
     # Dropdown for selecting a model
     model = st.selectbox("Choose a model:", ["TransCoder", "CodeT5", "CodeBERT"])
