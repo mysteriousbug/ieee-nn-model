@@ -253,7 +253,7 @@ public class Main {
             }
         });
 
-        List<Integer> subList = numbers.subList(1, 3); // Error: Python-like slicing syntax
+        List<Integer> subList = numbers.subList(1, 3); 
         System.out.println("Sublist: " + subList);
     }
 }
