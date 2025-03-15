@@ -85,7 +85,6 @@ elif st.session_state.selected_section == "Python to Java Translation":
         progress_bar = st.progress(0)
         
         for percent_complete in range(101):
-            time.sleep(0.02)
             progress_bar.progress(percent_complete)
         
         st.success("Translation Complete!")
@@ -591,8 +590,6 @@ public class MultiThreadingExample {
 }
 """
 
-    # Display in three sections
-    st.subheader("Input Python Code")
     st.code(python_code, language="python")
     
     st.subheader(f"Translated Java Code ({model})")
