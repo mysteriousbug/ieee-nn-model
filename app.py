@@ -23,6 +23,12 @@ model = st.selectbox(
     ["TransCoder", "CodeT5", "CodeBERT"]
 )
 
+# Dropdown for selecting a dataset
+model = st.selectbox(
+    "Choose a dataset:",
+    ["CodeXGlue", "CodeSearchNet", "Conala"]
+)
+
 # Dropdown for selecting a metric
 if model:
     metric = st.selectbox(
