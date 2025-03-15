@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 st.markdown("""
 ### Authors:
-**Amrutha Muralidhar,  Ananya Aithal,  G Sanjana Hebbar,  Dr. Kavitha Sooda**\n
+**Amrutha Muralidhar,  Ananya Aithal,  G Sanjana Hebbar,  Kavitha Sooda**\n
 Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
 """)
 
@@ -43,17 +43,14 @@ if model:
         if model == "TransCoder":
             st.write("""
             - Python → Java: **24.2**
-            # - Java → C++: **61.0**
             """)
         elif model == "CodeT5":
             st.write("""
             - Python → Java: **65.0**
-            # - Java → C++: **69.8**
             """)
         elif model == "CodeBERT":
             st.write("""
             - Python → Java: **60.5**
-            # - Java → C++: **62.8**
             """)
 
     elif metric == "Overall Execution Score (OES)":
@@ -185,8 +182,11 @@ public class Main {
         print("Sum: " + sum);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(() -> System.out.println("Thread 1"));
-        executor.submit(() -> System.out.println("Thread 2"));
+        executor.submit(() -> System.out.println("Addition"));
+        executor.submit(() -> System.out.println("Subtraction"));
+         executor.submit(() -> System.out.println("Multiplication"));
+          executor.submit(() -> System.out.println("Division"));
+           executor.submit(() -> System.out.println("Modulus"));
         executor.shutdown();
     }
 
