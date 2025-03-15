@@ -13,7 +13,7 @@ if st.sidebar.button("Introduction"):
     st.session_state.selected_section = "Introduction"
 if st.sidebar.button("Python to Java Translation"):
     st.session_state.selected_section = "Python to Java Translation"
-if st.sidebar.button("Results"):
+if st.sidebar.button("Java to C++ Translation"):
     st.session_state.selected_section = "Java to C++ Translation"
 if st.sidebar.button("Results"):
     st.session_state.selected_section = "Results"
