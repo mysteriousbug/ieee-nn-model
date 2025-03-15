@@ -80,26 +80,182 @@ elif st.session_state.selected_section == "Python to Java Translation":
     
     # Hardcoded Python multithreading function
     python_code = """
-import concurrent.futures
+import threading
+import time
+import random
+from queue import Queue
 
-def add(a, b):
-    return a + b
+# Constants
+NUM_WORKERS = 5
+TASKS_PER_WORKER = 3
+TASK_COMPLETION_TIME_RANGE = (1, 5)
 
-def subtract(a, b):
-    return a - b
+# Shared queue for tasks
+task_queue = Queue()
+# Lock for printing to avoid mixed output
+print_lock = threading.Lock()
 
-def multiply(a, b):
-    return a * b
+# Worker function
+def worker(worker_id):
+    while not task_queue.empty():
+        task = task_queue.get()
+        if task is None:
+            break
 
-def divide(a, b):
-    return a / b if b != 0 else "Division by zero"
+        # Simulate task processing time
+        processing_time = random.randint(*TASK_COMPLETION_TIME_RANGE)
+        with print_lock:
+            print(f"Worker {worker_id} is processing task {task} (will take {processing_time} seconds)")
+        time.sleep(processing_time)
+
+        with print_lock:
+            print(f"Worker {worker_id} completed task {task}")
+
+        task_queue.task_done()
+
+# Manager function
+def manager():
+    for task_id in range(1, NUM_WORKERS * TASKS_PER_WORKER + 1):
+        task_queue.put(task_id)
+        with print_lock:
+            print(f"Manager assigned task {task_id}")
+
+    # Wait for all tasks to be completed
+    task_queue.join()
+    with print_lock:
+        print("All tasks have been completed.")
+
+    # Signal workers to exit
+    for _ in range(NUM_WORKERS):
+        task_queue.put(None)
+
+# Main function
+def main():
+    # Create worker threads
+    workers = []
+    for worker_id in range(1, NUM_WORKERS + 1):
+        worker_thread = threading.Thread(target=worker, args=(worker_id,))
+        worker_thread.start()
+        workers.append(worker_thread)
+
+    # Create manager thread
+    manager_thread = threading.Thread(target=manager)
+    manager_thread.start()
+
+    # Wait for all worker threads to finish
+    for worker_thread in workers:
+        worker_thread.join()
+
+    # Wait for manager thread to finish
+    manager_thread.join()
+
+    print("All workers and manager have finished.")
+
+if __name__ == "__main__":
+    main()
 """
 
     translated_java_code = {
         "TransCoder": """
-public class Main {
+import java.util.concurrent.*;
+import java.util.Random;
+
+public class MultiThreadingExample {
+    private static final int NUM_WORKERS = 5;
+    private static final int TASKS_PER_WORKER = 3;
+    private static final int[] TASK_COMPLETION_TIME_RANGE = {1, 5};
+
+    private static BlockingQueue<Integer> taskQueue = new LinkedBlockingQueue<>();
+    private static Object printLock = new Object();
+
+    static class Worker implements Runnable {
+        private int workerId;
+
+        public Worker(int workerId) {
+            this.workerId = workerId;
+        }
+
+        @Override
+        public void run() {
+            while (!taskQueue.isEmpty()) {
+                Integer task = taskQueue.poll();
+                if (task == null) {
+                    break;
+                }
+
+                Random rand = new Random();
+                int processingTime = rand.nextInt(TASK_COMPLETION_TIME_RANGE[1]) + TASK_COMPLETION_TIME_RANGE[0];
+
+                synchronized (printLock) {
+                    System.out.println("Worker " + workerId + " is processing task " + task + " (will take " + processingTime + " seconds)");
+                }
+
+                try {
+                    Thread.sleep(processingTime * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                synchronized (printLock) {
+                    System.out.println("Worker " + workerId + " completed task " + task);
+                }
+            }
+        }
+    }
+
+    static class Manager implements Runnable {
+        @Override
+        public void run() {
+            for (int taskId = 1; taskId <= NUM_WORKERS * TASKS_PER_WORKER; taskId++) {
+                taskQueue.add(taskId);
+                synchronized (printLock) {
+                    System.out.println("Manager assigned task " + taskId);
+                }
+            }
+
+            while (!taskQueue.isEmpty()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            synchronized (printLock) {
+                System.out.println("All tasks have been completed.");
+            }
+
+            for (int i = 0; i < NUM_WORKERS; i++) {
+                taskQueue.add(null);
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Translated code by TransCoder");
+        Thread[] workers = new Thread[NUM_WORKERS];
+        for (int i = 0; i < NUM_WORKERS; i++) {
+            workers[i] = new Thread(new Worker(i + 1));
+            workers[i].start();
+        }
+
+        Thread managerThread = new Thread(new Manager());
+        managerThread.start();
+
+        for (Thread worker : workers) {
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            managerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All workers and manager have finished.");
     }
 }
 """,
