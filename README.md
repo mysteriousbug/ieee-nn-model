@@ -1,26 +1,56 @@
-Neural Network Models for Cross-Language Code Synthesis and Translation
+# Neural Network Models for Cross-Language Code Synthesis and Translation
 
+## Authors
 
-Authors
+- **Amrutha Muralidhar**  
+- **Ananya Aithal**  
+- **G Sanjana Hebbar**  
+- **Dr. Kavitha Sooda**  
 
+*Department of Computer Science and Engineering*  
+*B.M.S. College of Engineering, Bangalore, India*  
 
-Amrutha Muralidhar
+---
 
-Ananya Aithal
+## Abstract
 
-G Sanjana Hebbar
+This project evaluates the performance of three state-of-the-art neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics:
 
-Dr. Kavitha Sooda
+1. **Code Similarity Score (CSS)**
+2. **Overall Execution Score (OES)**
 
-Department of Computer Science and Engineering
-B.M.S. College of Engineering, Bangalore, India
+**Key Findings:**
+- CodeT5 achieves the highest translation accuracy
+- TransCoder struggles with semantic errors
+- CodeBERT performs reasonably well but faces challenges with:
+  - Complex control flow
+  - Abstract constructs
 
-Abstract
+These insights provide valuable guidance for developing improved code translation models, with applications in:
+- Software engineering
+- Programming education
 
+---
 
-This project evaluates the performance of three state-of-the-art neural network models—TransCoder, CodeT5, and CodeBERT—for cross-language code synthesis and translation. Using the CodeXGlue dataset, we assess these models based on two key metrics: Code Similarity Score (CSS) and Overall Execution Score (OES). Our findings reveal that CodeT5 achieves the highest translation accuracy, while TransCoder struggles with semantic errors. CodeBERT performs reasonably well but faces challenges in translating complex control flow and abstract constructs. These insights provide valuable guidance for the development of improved code translation models, with applications in software engineering and programming education.
+## Introduction
 
-Introduction
+Cross-language code translation is a critical task in software engineering, enabling developers to:
+- Port code between programming languages efficiently
+- Reduce manual translation errors
+- Accelerate development cycles
 
+**Recent Advances:**  
+Neural network models have shown promise in automating this process.
 
-Cross-language code translation is a critical task in software engineering, enabling developers to port code between programming languages efficiently. Recent advances in neural network models have shown promise in automating this process. This study evaluates three prominent models—TransCoder, CodeT5, and CodeBERT—to identify their strengths and weaknesses in code translation tasks. By analyzing their performance on the CodeXGlue dataset, we aim to provide actionable insights for improving these models and advancing the field of automated code translation.
+**This Study Evaluates:**
+1. TransCoder
+2. CodeT5  
+3. CodeBERT  
+
+**Methodology:**
+- Performance analysis on **CodeXGlue** dataset
+- Identification of strengths and weaknesses
+- Actionable insights for model improvement
+
+**Research Significance:**  
+Advances the field of automated code translation through empirical evaluation of cutting-edge models.
