@@ -16,6 +16,17 @@ from src.model import check_model_params, build_model
 from src.trainer import SingleTrainer, EncDecTrainer
 from src.evaluation.evaluator import SingleEvaluator, EncDecEvaluator
 
+class TransCoderConfig:
+    def __init__(self):
+        self.num_transformer_layers = 12
+        self.max_position_embeddings = 512
+        self.hidden_size = 1024  # Embedding size
+        self.vocab_size = 64001  # Second embedding size
+        self.num_parameters = 100_000_000  # ~100M
+        self.max_input_length = 512
+
+    def __str__(self):
+        return "\n".join(f"{k}: {v}" for k,v in vars(self).items())
 
 def get_parser():
     """
