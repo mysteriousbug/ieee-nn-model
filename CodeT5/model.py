@@ -42,6 +42,17 @@ def build_or_load_gen_model(args):
 
     return config, model, tokenizer
 
+class CodeT5Config:
+    def __init__(self):
+        self.num_layers = 24  # Transformer layers
+        self.max_positions = 512
+        self.d_model = 768  # Embedding dimension
+        self.vocab_size = 32100
+        self.total_params = 220_000_000  # 220M
+        self.max_seq_len = 512
+
+    def summary(self):
+        return {k: v for k,v in vars(self).items()}
 
 class RobertaClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
