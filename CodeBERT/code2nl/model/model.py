@@ -103,7 +103,14 @@ class Seq2Seq(nn.Module):
             return preds   
         
         
-
+class CodeBERTConfig:
+    num_hidden_layers: int = 12
+    max_position_embeddings: int = 512
+    hidden_size: int = 768
+    vocab_size: int = 50265
+    parameters: int = 125_000_000  # 125M
+    max_sequence_length: int = 512
+    
 class Beam(object):
     def __init__(self, size,sos,eos):
         self.size = size
