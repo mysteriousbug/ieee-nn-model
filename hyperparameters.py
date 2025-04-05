@@ -79,9 +79,9 @@ class CodeTranslator:
         # Training arguments (aligned with paper)
         args = TrainingArguments(
             output_dir=f"./{self.config['model_name']}_checkpoints",
-            TranscoderP = TRANSCODER.model.info,
-            CoderBERTP = CODEBERT.model.info,
-            CodeT5P = CODET5.model.info,
+            TranscoderP = TRANSCODER.model.info, #  "TransCoder": [12, 512, 1024, 64001, "100M"]
+            CoderBERTP = CODEBERT.model.info, # "CodeBERT": [12, 512, 768, 50265, "125M"]
+            CodeT5P = CODET5.model.info, #  "CodeT5": [24, 512, 768, 32100, "220M"]
             fp16=True,
             save_strategy="epoch",
             evaluation_strategy="epoch",
