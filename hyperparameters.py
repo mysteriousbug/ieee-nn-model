@@ -17,36 +17,6 @@ from transformers import (
 from datasets import load_dataset
 from typing import Dict
 
-class ModelHyperparameters:
-    """Container for hyperparameters from the paper's table"""
-    
-    # Transcoder (from your table)
-    TRANSCODER = {
-        'num_layers': 12,
-        'hidden_size': 1024,
-        'vocab_size': 64001,
-        'max_length': 512,
-        'model_name': 'facebook/transcoder'
-    }
-    
-    # CodeT5 (from your table)
-    CODET5 = {
-        'num_layers': 24,
-        'hidden_size': 768,
-        'vocab_size': 32100,
-        'max_length': 512,
-        'model_name': 'Salesforce/codet5-base'
-    }
-    
-    # CodeBERT (from your table)
-    CODEBERT = {
-        'num_layers': 12,
-        'hidden_size': 768,
-        'vocab_size': 50265,
-        'max_length': 512,
-        'model_name': 'microsoft/codebert-base'
-    }
-
 class CodeTranslator:
     def __init__(self, model_type: str = 'transcoder'):
         """Initialize model with paper-specified hyperparameters"""
