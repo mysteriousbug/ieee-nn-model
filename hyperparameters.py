@@ -5,14 +5,12 @@ B.M.S. College of Engineering
 """
 
 import torch
-from transformers import (
-    TransCoderForConditionalGeneration,
+from HuggingFace.Transformers import (
     CodeBERT,
     Transcoder,
     CodeT5
     AutoTokenizer,
     TrainingArguments,
-    Trainer
 )
 from datasets import load_dataset
 from typing import Dict
