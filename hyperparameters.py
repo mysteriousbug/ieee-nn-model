@@ -79,9 +79,9 @@ class CodeTranslator:
         # Training arguments (aligned with paper)
         args = TrainingArguments(
             output_dir=f"./{self.config['model_name']}_checkpoints",
-            per_device_train_batch_size=8 if self.config == ModelHyperparameters.TRANSCODER else 16,
-            learning_rate=5e-4 if self.config == ModelHyperparameters.TRANSCODER else 3e-5,
-            num_train_epochs=25 if self.config == ModelHyperparameters.TRANSCODER else 10,
+            TranscoderP = TRANSCODER.model.info,
+            CoderBERTP = CODEBERT.model.info,
+            CodeT5P = CODET5.model.info,
             fp16=True,
             save_strategy="epoch",
             evaluation_strategy="epoch",
