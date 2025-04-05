@@ -7,8 +7,9 @@ B.M.S. College of Engineering
 import torch
 from transformers import (
     TransCoderForConditionalGeneration,
-    T5ForConditionalGeneration,
-    RobertaForMaskedLM,
+    CodeBERT,
+    Transcoder,
+    CodeT5
     AutoTokenizer,
     TrainingArguments,
     Trainer
