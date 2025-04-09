@@ -49,15 +49,8 @@ if st.session_state.selected_section == "Introduction":
 elif st.session_state.selected_section == "Results": 
     col1, col2 = st.columns([1, 1])
     with col1:
-        
         st.header("Model Evaluation")
-        
-        # Dropdown for selecting a model
         model = st.selectbox("Choose a model:", ["TransCoder", "CodeT5", "CodeBERT"])
-        
-        # Dropdown for selecting a dataset
-        dataset = st.selectbox("Choose a dataset:", ["CodeXGlue", "CodeSearchNet", "Conala"])
-        
         # Dropdown for selecting a metric
         if model:
             metric = st.selectbox(f"Select a metric for {model}:", 
@@ -84,8 +77,7 @@ elif st.session_state.selected_section == "Results":
                 }
             }
             
-            st.subheader(f"{metric} for {model}")
-            st.write(scores[metric][model])
+            st.write(f"{metric} for {model}", scores[metric][model])
             
     with col2:
         st.header("Model Drawbacks")
