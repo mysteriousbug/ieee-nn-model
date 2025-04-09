@@ -90,11 +90,13 @@ elif st.session_state.selected_section == "Results":
     with col2:
         st.header("Model Drawbacks")
             
-        drawbacks_df = pd.DataFrame(drawbacks).reset_index(drop=True) 
-        st.table(drawbacks_df.style.set_properties(**{
-            'white-space': 'pre-wrap',
-            'text-align': 'left !important'
-        }))
+        st.header("Model Drawbacks")
+        drawbacks_df = pd.DataFrame(drawbacks)
+        st.dataframe(
+        drawbacks_df,
+        hide_index=True,  # Hides the default index
+        use_container_width=True  # Makes it responsive
+        )
         
         # Visualization
         st.subheader("Performance Comparison")
