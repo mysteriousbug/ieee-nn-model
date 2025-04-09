@@ -79,7 +79,6 @@ elif st.session_state.selected_section == "Model Configuration":
         dataset_df,
         hide_index=True,  # Hides the default index
         use_container_width=True,  # Makes it responsive
-        horizontal_alignment="left"
         )
     
 elif st.session_state.selected_section == "Results": 
