@@ -38,6 +38,7 @@ if st.session_state.selected_section == "Introduction":
     """)
 
 elif st.session_state.selected_section == "Results": 
+    col1, col2 = st.columns([1, 1])
     with col1:
         
         st.header("Model Evaluation")
