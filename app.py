@@ -25,6 +25,13 @@ if st.sidebar.button("Results"):
 # Display content based on the selected section
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 
+dataset = {
+    "Language": ["Java", "Python", "C++", "JavaScript", "Go", "PHP", "Ruby"],
+    "Training": [164923, 251820, 32000, 58025, 167288, 241241, 24297],
+    "Dev": [5183, 13914, 8000, 3885, 7325, 12982, 1400],
+    "Testing": [10955, 14918, 12000, 3291, 8122, 14014, 1262]
+}
+
 drawbacks = {
     "Model": ["TransCoder", "CodeT5", "CodeBERT"],
     "Key Challenges": [
@@ -67,9 +74,9 @@ elif st.session_state.selected_section == "Model Configuration":
             
     with col2:
         st.header("Dataset Distribution")
-        drawbacks_df = pd.DataFrame(drawbacks)
+        dataset_df = pd.DataFrame(dataset)
         st.dataframe(
-        drawbacks_df,
+        dataset_df,
         hide_index=True,  # Hides the default index
         use_container_width=True  # Makes it responsive
         )
