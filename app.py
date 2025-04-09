@@ -91,31 +91,31 @@ elif st.session_state.selected_section == "Results":
             
             st.subheader(f"{metric} for {model}")
             st.write(scores[metric][model])
+            
     with col2:
-        with col2:
-            st.header("Model Drawbacks & Performance")
+        st.header("Model Drawbacks & Performance")
             
-            drawbacks_df = pd.DataFrame(drawbacks)
-            st.table(drawbacks_df.style.set_properties(**{
-                'white-space': 'pre-wrap',
-                'text-align': 'left !important'
-            }))
-            
-            st.subheader("Key Insights")
-            st.markdown("""
-            - **CodeT5** achieves highest CSS (65.0) but requires more memory
-            - **TransCoder** needs extensive post-processing for Java output
-            - **CodeBERT** shows semantic gaps in control flow translation
-            """)
-            
-            # Visualization
-            st.subheader("Performance Comparison")
-            perf_data = {
-                "Model": ["TransCoder", "CodeBERT", "CodeT5"],
-                "CSS": [24.2, 60.5, 65.0],
-                "OES": [68.7, 68.6, 72.4]
-            }
-            st.bar_chart(pd.DataFrame(perf_data).set_index("Model"))
+        drawbacks_df = pd.DataFrame(drawbacks)
+        st.table(drawbacks_df.style.set_properties(**{
+            'white-space': 'pre-wrap',
+            'text-align': 'left !important'
+        }))
+        
+        st.subheader("Key Insights")
+        st.markdown("""
+        - **CodeT5** achieves highest CSS (65.0) but requires more memory
+        - **TransCoder** needs extensive post-processing for Java output
+        - **CodeBERT** shows semantic gaps in control flow translation
+        """)
+        
+        # Visualization
+        st.subheader("Performance Comparison")
+        perf_data = {
+            "Model": ["TransCoder", "CodeBERT", "CodeT5"],
+            "CSS": [24.2, 60.5, 65.0],
+            "OES": [68.7, 68.6, 72.4]
+        }
+        st.bar_chart(pd.DataFrame(perf_data).set_index("Model"))
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Python to Java Translation":
     st.header("Python to Java Code Translation")
