@@ -11,6 +11,8 @@ if 'selected_section' not in st.session_state:
 st.sidebar.title("Table of Contents")
 if st.sidebar.button("Introduction"):
     st.session_state.selected_section = "Introduction"
+if st.sidebar.button("Model Configuration"):
+    st.session_state.selected_section = "Model Configuration"
 if st.sidebar.button("Python to Java Translation"):
     st.session_state.selected_section = "Python to Java Translation"
 if st.sidebar.button("Java to C++ Translation"):
