@@ -78,7 +78,7 @@ elif st.session_state.selected_section == "Model Configuration":
         st.dataframe(
         dataset_df,
         hide_index=True,  # Hides the default index
-        use_container_width=True  # Makes it responsive
+        use_container_width=True,  # Makes it responsive
         column_config={
         # Left-align all columns
         col: st.column_config.Column(horizontal_alignment="left") 
