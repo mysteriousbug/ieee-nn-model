@@ -89,8 +89,6 @@ elif st.session_state.selected_section == "Results":
             
     with col2:
         st.header("Model Drawbacks")
-            
-        st.header("Model Drawbacks")
         drawbacks_df = pd.DataFrame(drawbacks)
         st.dataframe(
         drawbacks_df,
@@ -99,13 +97,13 @@ elif st.session_state.selected_section == "Results":
         )
         
         # Visualization
-        st.subheader("Performance Comparison")
-        perf_data = {
-            "Model": ["TransCoder", "CodeBERT", "CodeT5"],
-            "CSS": [24.2, 60.5, 65.0],
-            "OES": [68.7, 68.6, 72.4]
-        }
-        st.bar_chart(pd.DataFrame(perf_data).set_index("Model"))
+    st.subheader("Performance Comparison")
+    perf_data = {
+        "Model": ["TransCoder", "CodeBERT", "CodeT5"],
+        "CSS": [24.2, 60.5, 65.0],
+        "OES": [68.7, 68.6, 72.4]
+    }
+    st.bar_chart(pd.DataFrame(perf_data).set_index("Model"))
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Python to Java Translation":
     st.header("Python to Java Code Translation")
