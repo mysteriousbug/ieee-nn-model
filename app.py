@@ -31,11 +31,6 @@ drawbacks = {
         "Struggles with complex syntax (nested loops, recursion)\nRequires manual post-processing",
         "Faces issues with deeply nested logic\nHigher memory requirements",
         "Makes semantic errors in complex control flow\nStruggles with long-range dependencies"
-    ],
-    "Performance": [
-        "CSS: 24.2 (Python→Java)\nOES: 68.7",
-        "CSS: 65.0 (Python→Java)\nOES: 72.4",
-        "CSS: 60.5 (Python→Java)\nOES: 68.6"
     ]
 }
 
@@ -93,20 +88,13 @@ elif st.session_state.selected_section == "Results":
             st.write(scores[metric][model])
             
     with col2:
-        st.header("Model Drawbacks & Performance")
+        st.header("Model Drawbacks")
             
         drawbacks_df = pd.DataFrame(drawbacks)
         st.table(drawbacks_df.style.set_properties(**{
             'white-space': 'pre-wrap',
             'text-align': 'left !important'
         }))
-        
-        st.subheader("Key Insights")
-        st.markdown("""
-        - **CodeT5** achieves highest CSS (65.0) but requires more memory
-        - **TransCoder** needs extensive post-processing for Java output
-        - **CodeBERT** shows semantic gaps in control flow translation
-        """)
         
         # Visualization
         st.subheader("Performance Comparison")
