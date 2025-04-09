@@ -34,6 +34,14 @@ drawbacks = {
     ]
 }
 
+hyperparameters = {
+    "Hyperparameter": ["No. of Transformer Layers", "Max Length", "Embedding Size", 
+                      "Vocabulary Size", "No. of Parameters"],
+    "TransCoder": [12, 512, 1024, 64001, "100M"],
+    "CodeT5": [24, 512, 768, 32100, "220M"],
+    "CodeBERT": [12, 512, 768, 50265, "125M"]
+}
+
 if st.session_state.selected_section == "Introduction":
     st.markdown("""
     ### Authors:
@@ -45,7 +53,27 @@ if st.session_state.selected_section == "Introduction":
     st.markdown("""
     This work evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
     """)
-
+    
+elif st.session_state.selected_section == "Model Configuration":
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        st.header("Model Hyperparameters")
+        hyperparameters_df = pd.DataFrame(hyperparameters)
+        st.dataframe(
+        hyperparameters_df,
+        hide_index=True,  # Hides the default index
+        use_container_width=True  # Makes it responsive
+        )
+            
+    with col2:
+        st.header("Dataset Distribution")
+        drawbacks_df = pd.DataFrame(drawbacks)
+        st.dataframe(
+        drawbacks_df,
+        hide_index=True,  # Hides the default index
+        use_container_width=True  # Makes it responsive
+        )
+    
 elif st.session_state.selected_section == "Results": 
     col1, col2 = st.columns([1, 1])
     with col1:
