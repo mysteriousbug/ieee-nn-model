@@ -61,19 +61,19 @@ elif st.session_state.selected_section == "Results":
                 "Code Similarity Score (CSS)": {"TransCoder": "24.2", "CodeT5": "65.0", "CodeBERT": "60.5"},
                 "Overall Execution Score (OES)": {"TransCoder": "65.4", "CodeT5": "72.4", "CodeBERT": "68.6"},
                 "Precision": {
-                    "TransCoder": "Python → Java: **29.7**  |  Java → C++: **75.4**",
-                    "CodeT5": "Python → Java: **70.1**  |  Java → C++: **71.5**",
-                    "CodeBERT": "Python → Java: **60.6**  |  Java → C++: **63.4**"
+                    "TransCoder": "Python → Java: 29.7  |  Java → C++: 75.4",
+                    "CodeT5": "Python → Java: 70.1  |  Java → C++: 71.5",
+                    "CodeBERT": "Python → Java: 60.6  |  Java → C++: 63.4"
                 },
                 "Recall": {
-                    "TransCoder": "Python → Java: **27.5**  |  Java → C++: **73.1**",
-                    "CodeT5": "Python → Java: **70.8**  |  Java → C++: **69.5**",
-                    "CodeBERT": "Python → Java: **58.3**  |  Java → C++: **65.8**"
+                    "TransCoder": "Python → Java: 27.5  |  Java → C++: 73.1",
+                    "CodeT5": "Python → Java: 70.8  |  Java → C++: 69.5",
+                    "CodeBERT": "Python → Java: 58.3  |  Java → C++: 65.8"
                 },
                 "Exact Match": {
-                    "TransCoder": "Python → Java: **18.3**  |  Java → C++: **22.6**",
-                    "CodeT5": "Python → Java: **63.2**  |  Java → C++: **64.4**",
-                    "CodeBERT": "Python → Java: **53.1**  |  Java → C++: **55.4**"
+                    "TransCoder": "Python → Java: 18.3  |  Java → C++: 22.6",
+                    "CodeT5": "Python → Java: 63.2  |  Java → C++: 64.4",
+                    "CodeBERT": "Python → Java: 53.1  |  Java → C++: 55.4"
                 }
             }
             
