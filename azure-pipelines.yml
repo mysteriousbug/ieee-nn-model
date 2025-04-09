@@ -1,7 +1,55 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Azure DevOps Pipeline for Code Translation System
+# Optimized for free tier (1 job at a time)
+trigger:
+- main  # Runs on pushes to main branch
 
+variables:
+  python.version: '3.9'
+  azure.webapp.name: 'code-translation-app'
 
+pool:
+  vmImage: 'ubuntu-latest'  # Microsoft-hosted free agent
 
+jobs:
+- job: build_and_deploy
+  displayName: 'Build and Deploy'
+  steps:
+  
+  # Step 1: Set up Python
+  - task: UsePythonVersion@0
+    displayName: 'Set up Python $(python.version)'
+    inputs:
+      versionSpec: $(python.version)
+      addToPath: true
+
+  # Step 2: Install dependencies
+  - script: |
+      pip install -r requirements.txt
+      pip install pytest pylint
+    displayName: 'Install dependencies'
+
+  # Step 3: Run tests sequentially
+  - script: |
+      pytest tests/ --junitxml=test-results.xml
+      pylint app.py --exit-zero > pylint-results.txt
+    displayName: 'Run tests and linting'
+  
+  # Step 4: Deploy to Azure App Service
+  - task: AzureWebApp@1
+    displayName: 'Deploy to Azure Web App'
+    inputs:
+      appName: $(azure.webapp.name)
+      package: $(System.DefaultWorkingDirectory)
+      runtimeStack: 'PYTHON|$(python.version)'
+      startUpCommand: |
+        streamlit run app.py \
+        --server.port=8000 \
+        --server.address=0.0.0.0
+
+  # Step 5: (Optional) Upload test results
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Unit Tests'
+    condition: always()  # Runs even if tests fail
