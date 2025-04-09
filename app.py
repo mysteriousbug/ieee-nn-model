@@ -591,7 +591,7 @@ public class MultiThreadingExample {
 }
 """
     if flag == 1:
-         st.code(python_code, language="python")
+         # st.code(python_code, language="python")
     
          st.subheader(f"Translated Java Code ({model})")
          st.code(translated_java_code[model], language="java")
@@ -1673,7 +1673,7 @@ int main() {
 
     
     if flag == 1: 
-        st.code(java_code, language="java")
+        # st.code(java_code, language="java")
     
         st.subheader(f"Translated C++ Code ({model})")
         st.code(translated_cpp_code[model], language="cpp")
