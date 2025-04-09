@@ -89,7 +89,7 @@ elif st.session_state.selected_section == "Results":
         )
         
         # Visualization
-    st.subheader("Performance Comparison")
+    st.header("Performance Comparison")
     perf_data = {
         "Model": ["TransCoder", "CodeBERT", "CodeT5"],
         "CSS": [24.2, 60.5, 65.0],
