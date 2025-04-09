@@ -77,7 +77,7 @@ elif st.session_state.selected_section == "Results":
                 }
             }
             
-            st.write(f"{metric} for {model}", scores[metric][model])
+            st.code(scores[metric][model])
             
     with col2:
         st.header("Model Drawbacks")
