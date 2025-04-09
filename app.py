@@ -76,7 +76,11 @@ elif st.session_state.selected_section == "Model Configuration":
         st.header("Dataset Distribution")
         dataset_df = pd.DataFrame(dataset)
         st.dataframe(
-        dataset_df,
+        dataset_df.style.set_properties(**{
+        'text-align': 'left',      # Left-align text
+        'white-space': 'pre-wrap', # Enable text wrapping
+        'max-width': '100px'       # Optional: Set column width (prevents excessive stretching)
+    }),
         hide_index=True,  # Hides the default index
         use_container_width=True,  # Makes it responsive
         )
@@ -118,7 +122,11 @@ elif st.session_state.selected_section == "Results":
         st.header("Model Drawbacks")
         drawbacks_df = pd.DataFrame(drawbacks)
         st.dataframe(
-        drawbacks_df,
+        drawbacks_df.style.set_properties(**{
+        'text-align': 'left',      # Left-align text
+        'white-space': 'pre-wrap', # Enable text wrapping
+        'max-width': '100px'       # Optional: Set column width (prevents excessive stretching)
+    }),
         hide_index=True,  # Hides the default index
         use_container_width=True  # Makes it responsive
         )
