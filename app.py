@@ -25,6 +25,20 @@ if st.sidebar.button("Results"):
 # Display content based on the selected section
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
 
+drawbacks = {
+    "Model": ["TransCoder", "CodeT5", "CodeBERT"],
+    "Key Challenges": [
+        "Struggles with complex syntax (nested loops, recursion)\nRequires manual post-processing",
+        "Faces issues with deeply nested logic\nHigher memory requirements",
+        "Makes semantic errors in complex control flow\nStruggles with long-range dependencies"
+    ],
+    "Performance": [
+        "CSS: 24.2 (Python→Java)\nOES: 68.7",
+        "CSS: 65.0 (Python→Java)\nOES: 72.4",
+        "CSS: 60.5 (Python→Java)\nOES: 68.6"
+    ]
+}
+
 if st.session_state.selected_section == "Introduction":
     st.markdown("""
     ### Authors:
