@@ -35,9 +35,9 @@ dataset = {
 drawbacks = {
     "Model": ["TransCoder", "CodeT5", "CodeBERT"],
     "Key Challenges": [
-        "Struggles with complex syntax (nested loops, recursion)\nRequires manual post-processing",
-        "Faces issues with deeply nested logic\nHigher memory requirements",
-        "Makes semantic errors in complex control flow\nStruggles with long-range dependencies"
+        "Struggles with complex syntax and requires manual post-processing",
+        "Faces issues with deeply nested logic and has higher memory requirements",
+        "Makes semantic errors in control flow having low-resource language pairs"
     ]
 }
 
@@ -76,11 +76,7 @@ elif st.session_state.selected_section == "Model Configuration":
         st.header("Dataset Distribution")
         dataset_df = pd.DataFrame(dataset)
         st.dataframe(
-        dataset_df.style.set_properties(**{
-        'text-align': 'left',      # Left-align text
-        'white-space': 'pre-wrap', # Enable text wrapping
-        'max-width': '100px'       # Optional: Set column width (prevents excessive stretching)
-    }),
+        dataset_df,
         hide_index=True,  # Hides the default index
         use_container_width=True,  # Makes it responsive
         )
@@ -122,11 +118,7 @@ elif st.session_state.selected_section == "Results":
         st.header("Model Drawbacks")
         drawbacks_df = pd.DataFrame(drawbacks)
         st.dataframe(
-        drawbacks_df.style.set_properties(**{
-        'text-align': 'left',      # Left-align text
-        'white-space': 'pre-wrap', # Enable text wrapping
-        'max-width': '100px'       # Optional: Set column width (prevents excessive stretching)
-    }),
+        drawbacks_df,
         hide_index=True,  # Hides the default index
         use_container_width=True  # Makes it responsive
         )
