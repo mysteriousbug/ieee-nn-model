@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+from PIL import Image
 
 # Set wide layout
 st.set_page_config(layout="wide")
@@ -36,43 +38,69 @@ if st.session_state.selected_section == "Introduction":
     """)
 
 elif st.session_state.selected_section == "Results": 
-    st.header("Model Evaluation")
-    
-    # Dropdown for selecting a model
-    model = st.selectbox("Choose a model:", ["TransCoder", "CodeT5", "CodeBERT"])
-    
-    # Dropdown for selecting a dataset
-    dataset = st.selectbox("Choose a dataset:", ["CodeXGlue", "CodeSearchNet", "Conala"])
-    
-    # Dropdown for selecting a metric
-    if model:
-        metric = st.selectbox(f"Select a metric for {model}:", 
-                              ["Code Similarity Score (CSS)", "Overall Execution Score (OES)", 
-                               "Precision", "Recall", "Exact Match"])
-
-        scores = {
-            "Code Similarity Score (CSS)": {"TransCoder": "24.2", "CodeT5": "65.0", "CodeBERT": "60.5"},
-            "Overall Execution Score (OES)": {"TransCoder": "65.4", "CodeT5": "72.4", "CodeBERT": "68.6"},
-            "Precision": {
-                "TransCoder": "Python → Java: **29.7**  |  Java → C++: **75.4**",
-                "CodeT5": "Python → Java: **70.1**  |  Java → C++: **71.5**",
-                "CodeBERT": "Python → Java: **60.6**  |  Java → C++: **63.4**"
-            },
-            "Recall": {
-                "TransCoder": "Python → Java: **27.5**  |  Java → C++: **73.1**",
-                "CodeT5": "Python → Java: **70.8**  |  Java → C++: **69.5**",
-                "CodeBERT": "Python → Java: **58.3**  |  Java → C++: **65.8**"
-            },
-            "Exact Match": {
-                "TransCoder": "Python → Java: **18.3**  |  Java → C++: **22.6**",
-                "CodeT5": "Python → Java: **63.2**  |  Java → C++: **64.4**",
-                "CodeBERT": "Python → Java: **53.1**  |  Java → C++: **55.4**"
-            }
-        }
+    with col1:
         
-        st.subheader(f"{metric} for {model}")
-        st.write(scores[metric][model])
-
+        st.header("Model Evaluation")
+        
+        # Dropdown for selecting a model
+        model = st.selectbox("Choose a model:", ["TransCoder", "CodeT5", "CodeBERT"])
+        
+        # Dropdown for selecting a dataset
+        dataset = st.selectbox("Choose a dataset:", ["CodeXGlue", "CodeSearchNet", "Conala"])
+        
+        # Dropdown for selecting a metric
+        if model:
+            metric = st.selectbox(f"Select a metric for {model}:", 
+                                  ["Code Similarity Score (CSS)", "Overall Execution Score (OES)", 
+                                   "Precision", "Recall", "Exact Match"])
+    
+            scores = {
+                "Code Similarity Score (CSS)": {"TransCoder": "24.2", "CodeT5": "65.0", "CodeBERT": "60.5"},
+                "Overall Execution Score (OES)": {"TransCoder": "65.4", "CodeT5": "72.4", "CodeBERT": "68.6"},
+                "Precision": {
+                    "TransCoder": "Python → Java: **29.7**  |  Java → C++: **75.4**",
+                    "CodeT5": "Python → Java: **70.1**  |  Java → C++: **71.5**",
+                    "CodeBERT": "Python → Java: **60.6**  |  Java → C++: **63.4**"
+                },
+                "Recall": {
+                    "TransCoder": "Python → Java: **27.5**  |  Java → C++: **73.1**",
+                    "CodeT5": "Python → Java: **70.8**  |  Java → C++: **69.5**",
+                    "CodeBERT": "Python → Java: **58.3**  |  Java → C++: **65.8**"
+                },
+                "Exact Match": {
+                    "TransCoder": "Python → Java: **18.3**  |  Java → C++: **22.6**",
+                    "CodeT5": "Python → Java: **63.2**  |  Java → C++: **64.4**",
+                    "CodeBERT": "Python → Java: **53.1**  |  Java → C++: **55.4**"
+                }
+            }
+            
+            st.subheader(f"{metric} for {model}")
+            st.write(scores[metric][model])
+    with col2:
+        with col2:
+            st.header("Model Drawbacks & Performance")
+            
+            drawbacks_df = pd.DataFrame(drawbacks)
+            st.table(drawbacks_df.style.set_properties(**{
+                'white-space': 'pre-wrap',
+                'text-align': 'left !important'
+            }))
+            
+            st.subheader("Key Insights")
+            st.markdown("""
+            - **CodeT5** achieves highest CSS (65.0) but requires more memory
+            - **TransCoder** needs extensive post-processing for Java output
+            - **CodeBERT** shows semantic gaps in control flow translation
+            """)
+            
+            # Visualization
+            st.subheader("Performance Comparison")
+            perf_data = {
+                "Model": ["TransCoder", "CodeBERT", "CodeT5"],
+                "CSS": [24.2, 60.5, 65.0],
+                "OES": [68.7, 68.6, 72.4]
+            }
+            st.bar_chart(pd.DataFrame(perf_data).set_index("Model"))
 # Python to Java Translation Section
 elif st.session_state.selected_section == "Python to Java Translation":
     st.header("Python to Java Code Translation")
