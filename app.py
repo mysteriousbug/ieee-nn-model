@@ -91,7 +91,8 @@ elif st.session_state.selected_section == "Results":
         st.header("Model Drawbacks")
             
         drawbacks_df = pd.DataFrame(drawbacks)
-        st.table(drawbacks_df.style.set_properties(**{
+        st.table(drawbacks_df.style.hide(axis="index")
+                 .set_properties(**{
             'white-space': 'pre-wrap',
             'text-align': 'left !important'
         }))
