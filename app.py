@@ -22,31 +22,7 @@ if st.sidebar.button("Java to C++ Translation"):
 if st.sidebar.button("Results"):
     st.session_state.selected_section = "Results"
 # Add this to your sidebar section (replace existing Live Translation button)
-st.sidebar.markdown("""
-<style>
-.glow-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #4CAF50;
-    color: white !important;
-    border-radius: 5px;
-    text-decoration: none !important;
-    margin: 0.25rem 0;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 0 5px #4CAF50;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-.glow-button:hover {
-    box-shadow: 0 0 20px #4CAF50;
-    transform: scale(1.02);
-}
-</style>
-<a href="URL1" class="glow-button" target="_blank">✨ Live Translation ✨</a>
-""", unsafe_allow_html=True)
+
 
 # Display content based on the selected section
 st.title("Neural Network Models for Cross-Language Code Synthesis and Translation")
@@ -685,21 +661,7 @@ public class MultiThreadingExample {
          st.subheader("Corrected Java Code")
          st.code(corrected_java_code, language="java")
                  # Translation Metrics Table
-         st.subheader("Translation Evaluation Metrics")
-
-         metrics_data = {
-             "Metric": ["Code Similarity Score (CSS)", "Overall Execution Score (OES)", "Precision", "Recall", "Exact Match"],
-             "Score": [
-                 scores["Code Similarity Score (CSS)"][model],
-                 scores["Overall Execution Score (OES)"][model],
-                 scores["Precision"][model].split("  |  ")[0].split(": ")[1],
-                 scores["Recall"][model].split("  |  ")[0].split(": ")[1],
-                 scores["Exact Match"][model].split("  |  ")[0].split(": ")[1],
-             ]
-         }
-
-         metrics_df = pd.DataFrame(metrics_data)
-         st.table(metrics_df)
+        
 
          st.markdown("""
              <style>
