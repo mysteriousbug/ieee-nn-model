@@ -684,6 +684,22 @@ public class MultiThreadingExample {
     
          st.subheader("Corrected Java Code")
          st.code(corrected_java_code, language="java")
+                 # Translation Metrics Table
+         st.subheader("Translation Evaluation Metrics")
+
+         metrics_data = {
+             "Metric": ["Code Similarity Score (CSS)", "Overall Execution Score (OES)", "Precision", "Recall", "Exact Match"],
+             "Score": [
+                 scores["Code Similarity Score (CSS)"][model],
+                 scores["Overall Execution Score (OES)"][model],
+                 scores["Precision"][model].split("  |  ")[0].split(": ")[1],
+                 scores["Recall"][model].split("  |  ")[0].split(": ")[1],
+                 scores["Exact Match"][model].split("  |  ")[0].split(": ")[1],
+             ]
+         }
+
+         metrics_df = pd.DataFrame(metrics_data)
+         st.table(metrics_df)
 
          st.markdown("""
              <style>
