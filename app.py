@@ -904,626 +904,82 @@ public class LibraryManagementSystem {
     translated_cpp_code = {
         "TransCoder": """
 #include <iostream>
-#include <string>
-#include <vector>
-#include <stdexcept>
-
 using namespace std;
 
-// Interface for printable objects
-class Printable {
+class SuperClassA {
 public:
-    virtual void printDetails() = 0;
-};
-
-// Base class for all entities in the library
-class Entity : public Printable {
-private:
-    string id;
-    string name;
-
-public:
-    Entity(string id, string name) : id(id), name(name) {}
-
-    // Getters and Setters
-    string getId() {
-        return id;
-    }
-
-    string getName() {
-        return name;
-    }
-
-    void setName(string name) {
-        this->name = name;
-    }
-
-    void printDetails() override {
-        cout << "ID: " << id << ", Name: " << name << endl;
+    void foo() {
+        cout << "SuperClassA" << endl;
     }
 };
 
-// Author class
-class Author : public Entity {
-private:
-    string biography;
-
+class SubClassB : public SuperClassA {
 public:
-    Author(string id, string name, string biography) : Entity(id, name), biography(biography) {}
-
-    string getBiography() {
-        return biography;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Biography: " << biography << endl;
+    void bar() {
+        cout << "SubClassB" << endl;
     }
 };
 
-// Book class
-class Book : public Entity {
-private:
-    Author* author;
-    string genre;
-    bool isAvailable;
-
-public:
-    Book(string id, string name, Author* author, string genre) : Entity(id, name), author(author), genre(genre), isAvailable(true) {}
-
-    Author* getAuthor() {
-        return author;
-    }
-
-    string getGenre() {
-        return genre;
-    }
-
-    bool isAvailable() {
-        return isAvailable;
-    }
-
-    void setAvailable(bool available) {
-        isAvailable = available;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Author: " << author->getName() << endl;
-        cout << "Genre: " << genre << endl;
-        cout << "Availability: " << (isAvailable ? "Available" : "Not Available") << endl;
-    }
-};
-
-// LibraryMember class
-class LibraryMember : public Entity {
-private:
-    vector<Book*> borrowedBooks;
-
-public:
-    LibraryMember(string id, string name) : Entity(id, name) {}
-
-    void borrowBook(Book* book) {
-        if (!book->isAvailable()) {
-            throw runtime_error("Book is not available for borrowing.");
-        }
-        book->setAvailable(false);
-        borrowedBooks.push_back(book);
-        cout << "Book '" << book->getName() << "' borrowed by " << getName() << endl;
-    }
-
-    void returnBook(Book* book) {
-        auto it = find(borrowedBooks.begin(), borrowedBooks.end(), book);
-        if (it != borrowedBooks.end()) {
-            borrowedBooks.erase(it);
-            book->setAvailable(true);
-            cout << "Book '" << book->getName() << "' returned by " << getName() << endl;
-        } else {
-            cout << "Book '" << book->getName() << "' was not borrowed by " << getName() << endl;
-        }
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Borrowed Books:" << endl;
-        for (Book* book : borrowedBooks) {
-            book->printDetails();
-        }
-    }
-};
-
-// Library class (Composition)
-class Library {
-private:
-    vector<Book*> books;
-    vector<LibraryMember*> members;
-
-public:
-    void addBook(Book* book) {
-        books.push_back(book);
-    }
-
-    void addMember(LibraryMember* member) {
-        members.push_back(member);
-    }
-
-    void displayBooks() {
-        cout << "Library Books:" << endl;
-        for (Book* book : books) {
-            book->printDetails();
-        }
-    }
-
-    void displayMembers() {
-        cout << "Library Members:" << endl;
-        for (LibraryMember* member : members) {
-            member->printDetails();
-        }
-    }
-};
-
-// Main function
 int main() {
-    // Create authors
-    Author* author1 = new Author("A1", "J.K. Rowling", "British author best known for the Harry Potter series.");
-    Author* author2 = new Author("A2", "George Orwell", "English novelist known for '1984' and 'Animal Farm'.");
-
-    // Create books
-    Book* book1 = new Book("B1", "Harry Potter and the Philosopher's Stone", author1, "Fantasy");
-    Book* book2 = new Book("B2", "1984", author2, "Dystopian");
-
-    // Create library members
-    LibraryMember* member1 = new LibraryMember("M1", "Alice");
-    LibraryMember* member2 = new LibraryMember("M2", "Bob");
-
-    // Create library and add books and members
-    Library library;
-    library.addBook(book1);
-    library.addBook(book2);
-    library.addMember(member1);
-    library.addMember(member2);
-
-    // Display library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Borrow and return books
-    try {
-        member1->borrowBook(book1);
-        member2->borrowBook(book2);
-        member1->returnBook(book1);
-    } catch (const exception& e) {
-        cout << "Error: " << e.what() << endl;
-    }
-
-    // Display updated library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Clean up dynamically allocated memory
-    delete author1;
-    delete author2;
-    delete book1;
-    delete book2;
-    delete member1;
-    delete member2;
-
+    SubClassB a;
+    
+    a.foo();
+    a.bar();
+    
     return 0;
-}   
+}  
 """,
         "CodeT5": """
 #include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-
 using namespace std;
 
-// Interface for printable objects
-class Printable {
+class SuperClassA {
 public:
-    virtual void printDetails() = 0;
-};
-
-// Base class for all entities in the library
-class Entity : public Printable {
-protected:
-    string id;
-    string name;
-
-public:
-    Entity(string id, string name) : id(id), name(name) {}
-
-    string getId() {
-        return id;
-    }
-
-    string getName() {
-        return name;
-    }
-
-    void setName(string name) {
-        this->name = name;
-    }
-
-    void printDetails() override {
-        cout << "ID: " << id << ", Name: " << name << endl;
+    void foo() {
+        cout << "SuperClassA" << endl;
     }
 };
 
-// Author class
-class Author : public Entity {
-private:
-    string biography;
-
+class SubClassB : public SuperClassA {
 public:
-    Author(string id, string name, string biography) : Entity(id, name), biography(biography) {}
-
-    string getBiography() {
-        return biography;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Biography: " << biography << endl;
+    void bar() {
+        cout << "SubClassB" << endl;
     }
 };
 
-// Book class
-class Book : public Entity {
-private:
-    Author* author;
-    string genre;
-    bool isAvailable;
-
-public:
-    Book(string id, string name, Author* author, string genre) : Entity(id, name), author(author), genre(genre), isAvailable(true) {}
-
-    Author* getAuthor() {
-        return author;
-    }
-
-    string getGenre() {
-        return genre;
-    }
-
-    bool isAvailable() {
-        return isAvailable;
-    }
-
-    void setAvailable(bool available) {
-        isAvailable = available;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Author: " << author->getName() << endl;
-        cout << "Genre: " << genre << endl;
-        cout << "Availability: " << (isAvailable ? "Available" : "Not Available") << endl;
-    }
-};
-
-// LibraryMember class
-class LibraryMember : public Entity {
-private:
-    vector<Book*> borrowedBooks;
-
-public:
-    LibraryMember(string id, string name) : Entity(id, name) {}
-
-    void borrowBook(Book* book) {
-        if (!book->isAvailable()) {
-            throw runtime_error("Book is not available for borrowing.");
-        }
-        book->setAvailable(false);
-        borrowedBooks.push_back(book);
-        cout << "Book '" << book->getName() << "' borrowed by " << getName() << endl;
-    }
-
-    void returnBook(Book* book) {
-        auto it = find(borrowedBooks.begin(), borrowedBooks.end(), book);
-        if (it != borrowedBooks.end()) {
-            borrowedBooks.erase(it);
-            book->setAvailable(true);
-            cout << "Book '" << book->getName() << "' returned by " << getName() << endl;
-        } else {
-            cout << "Book '" << book->getName() << "' was not borrowed by " << getName() << endl;
-        }
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Borrowed Books:" << endl;
-        for (Book* book : borrowedBooks) {
-            book->printDetails();
-        }
-    }
-};
-
-// Library class (Composition)
-class Library {
-private:
-    vector<Book*> books;
-    vector<LibraryMember*> members;
-
-public:
-    void addBook(Book* book) {
-        books.push_back(book);
-    }
-
-    void addMember(LibraryMember* member) {
-        members.push_back(member);
-    }
-
-    void displayBooks() {
-        cout << "Library Books:" << endl;
-        for (Book* book : books) {
-            book->printDetails();
-        }
-    }
-
-    void displayMembers() {
-        cout << "Library Members:" << endl;
-        for (LibraryMember* member : members) {
-            member->printDetails();
-        }
-    }
-};
-
-// Main function
 int main() {
-    // Create authors
-    Author* author1 = new Author("A1", "J.K. Rowling", "British author best known for the Harry Potter series.");
-    Author* author2 = new Author("A2", "George Orwell", "English novelist known for '1984' and 'Animal Farm'.");
-
-    // Create books
-    Book* book1 = new Book("B1", "Harry Potter and the Philosopher's Stone", author1, "Fantasy");
-    Book* book2 = new Book("B2", "1984", author2, "Dystopian");
-
-    // Create library members
-    LibraryMember* member1 = new LibraryMember("M1", "Alice");
-    LibraryMember* member2 = new LibraryMember("M2", "Bob");
-
-    // Create library and add books and members
-    Library library;
-    library.addBook(book1);
-    library.addBook(book2);
-    library.addMember(member1);
-    library.addMember(member2);
-
-    // Display library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Borrow and return books
-    try {
-        member1->borrowBook(book1);
-        member2->borrowBook(book2);
-        member1->returnBook(book1);
-    } catch (const exception& e) {
-        cout << "Error: " << e.what() << endl;
-    }
-
-    // Display updated library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Clean up dynamically allocated memory
-    delete author1;
-    delete author2;
-    delete book1;
-    delete book2;
-    delete member1;
-    delete member2;
-
+    SubClassB a;
+    
+    a.foo();
+    a.bar();
+    
     return 0;
 }
 """,
         "CodeBERT": """
 #include <iostream>
-#include <string>
-#include <vector>
-#include <stdexcept>
-
 using namespace std;
 
-// Interface for printable objects
-class Printable {
+class SuperClassA {
 public:
-    virtual void printDetails() = 0;
-};
-
-// Base class for all entities in the library
-class Entity : public Printable {
-private:
-    string id;
-    string name;
-
-public:
-    Entity(string id, string name) : id(id), name(name) {}
-
-    string getId() {
-        return id;
-    }
-
-    string getName() {
-        return name;
-    }
-
-    void setName(string name) {
-        this->name = name;
-    }
-
-    void printDetails() override {
-        cout << "ID: " << id << ", Name: " << name << endl;
+    void foo() {
+        cout << "SuperClassA" << endl;
     }
 };
 
-// Author class
-class Author : public Entity {
-private:
-    string biography;
-
+class SubClassB : public SuperClassA {
 public:
-    Author(string id, string name, string biography) : Entity(id, name), biography(biography) {}
-
-    string getBiography() {
-        return biography;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Biography: " << biography << endl;
+    void bar() {
+        cout << "SubClassB" << endl;
     }
 };
 
-// Book class
-class Book : public Entity {
-private:
-    Author* author;
-    string genre;
-    bool isAvailable;
-
-public:
-    Book(string id, string name, Author* author, string genre) : Entity(id, name), author(author), genre(genre), isAvailable(true) {}
-
-    Author* getAuthor() {
-        return author;
-    }
-
-    string getGenre() {
-        return genre;
-    }
-
-    bool isAvailable() {
-        return isAvailable;
-    }
-
-    void setAvailable(bool available) {
-        isAvailable = available;
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Author: " << author->getName() << endl;
-        cout << "Genre: " << genre << endl;
-        cout << "Availability: " << (isAvailable ? "Available" : "Not Available") << endl;
-    }
-};
-
-// LibraryMember class
-class LibraryMember : public Entity {
-private:
-    vector<Book*> borrowedBooks;
-
-public:
-    LibraryMember(string id, string name) : Entity(id, name) {}
-
-    void borrowBook(Book* book) {
-        if (!book->isAvailable()) {
-            throw runtime_error("Book is not available for borrowing.");
-        }
-        book->setAvailable(false);
-        borrowedBooks.push_back(book);
-        cout << "Book '" << book->getName() << "' borrowed by " << getName() << endl;
-    }
-
-    void returnBook(Book* book) {
-        auto it = find(borrowedBooks.begin(), borrowedBooks.end(), book);
-        if (it != borrowedBooks.end()) {
-            borrowedBooks.erase(it);
-            book->setAvailable(true);
-            cout << "Book '" << book->getName() << "' returned by " << getName() << endl;
-        } else {
-            cout << "Book '" << book->getName() << "' was not borrowed by " << getName() << endl;
-        }
-    }
-
-    void printDetails() override {
-        Entity::printDetails();
-        cout << "Borrowed Books:" << endl;
-        for (Book* book : borrowedBooks) {
-            book->printDetails();
-        }
-    }
-};
-
-// Library class (Composition)
-class Library {
-private:
-    vector<Book*> books;
-    vector<LibraryMember*> members;
-
-public:
-    void addBook(Book* book) {
-        books.push_back(book);
-    }
-
-    void addMember(LibraryMember* member) {
-        members.push_back(member);
-    }
-
-    void displayBooks() {
-        cout << "Library Books:" << endl;
-        for (Book* book : books) {
-            book->printDetails();
-        }
-    }
-
-    void displayMembers() {
-        cout << "Library Members:" << endl;
-        for (LibraryMember* member : members) {
-            member->printDetails();
-        }
-    }
-};
-
-// Main function
 int main() {
-    // Create authors
-    Author* author1 = new Author("A1", "J.K. Rowling", "British author best known for the Harry Potter series.");
-    Author* author2 = new Author("A2", "George Orwell", "English novelist known for '1984' and 'Animal Farm'.");
-
-    // Create books
-    Book* book1 = new Book("B1", "Harry Potter and the Philosopher's Stone", author1, "Fantasy");
-    Book* book2 = new Book("B2", "1984", author2, "Dystopian");
-
-    // Create library members
-    LibraryMember* member1 = new LibraryMember("M1", "Alice");
-    LibraryMember* member2 = new LibraryMember("M2", "Bob");
-
-    // Create library and add books and members
-    Library library;
-    library.addBook(book1);
-    library.addBook(book2);
-    library.addMember(member1);
-    library.addMember(member2);
-
-    // Display library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Borrow and return books
-    try {
-        member1->borrowBook(book1);
-        member2->borrowBook(book2);
-        member1->returnBook(book1);
-    } catch (const exception& e) {
-        cout << "Error: " << e.what() << endl;
-    }
-
-    // Display updated library details
-    library.displayBooks();
-    library.displayMembers();
-
-    // Clean up dynamically allocated memory
-    delete author1;
-    delete author2;
-    delete book1;
-    delete book2;
-    delete member1;
-    delete member2;
-
+    SubClassB a;
+    
+    a.foo();
+    a.bar();
+    
     return 0;
 }
 """
@@ -1742,8 +1198,8 @@ int main() {
         st.subheader(f"Translated C++ Code ({model})")
         st.code(translated_cpp_code[model], language="cpp")
     
-        st.subheader("Corrected C++ Code")
-        st.code(corrected_cpp_code, language="cpp")
+      #  st.subheader("Corrected C++ Code")
+       # st.code(corrected_cpp_code, language="cpp")
 
         st.markdown("""
             <style>
