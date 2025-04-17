@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 st.balloons()
 
 # Initialize session state for navigation
-col1, col2 = st.comlumns([1,1])
+col1, col2 = st.columns([1,1])
 with col1:
     st.title("Experience Seamless Code Translation with NeuroCode")
 
