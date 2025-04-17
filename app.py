@@ -3,7 +3,7 @@ import pandas as pd
 from PIL import Image
 
 # Set wide layout
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 st.balloons()
 
 # Initialize session state for navigation
