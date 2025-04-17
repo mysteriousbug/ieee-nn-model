@@ -7,20 +7,22 @@ st.set_page_config(layout="wide")
 st.balloons()
 
 # Initialize session state for navigation
-if 'selected_section' not in st.session_state:
-    st.session_state.selected_section = "Introduction"
+col1, col2 = st.comlumns([1,1])
+with col1:
+    st.title("Experience Seamless Code Translation with NeuroCode")
 
-st.title("Experience Seamless Code Translation with NeuroCode")
+with col2:
+    st.image("img1.png")
 
-st.markdown("""
-### Authors:
-**Amrutha Muralidhar, Ananya Aithal, G Sanjana Hebbar, Kavitha Sooda**  
-Department of Computer Science and Engineering, B.M.S. College of Engineering, Bangalore, India
-""")
+col3, col4, col5 = st.columns([1,1,1])
+with col3:
+     st.image("img1.png")
 
-st.markdown("### Abstract")
-st.markdown("""
-This work evaluates the performance of three neural network models—**TransCoder**, **CodeT5**, and **CodeBERT**—for cross-language code synthesis and translation. Using the **CodeXGlue** dataset, we assess these models based on two key metrics: **Code Similarity Score (CSS)** and **Overall Execution Score (OES)**.
-""")
+with col4:
+     st.image("img1.png")
+    
+with col5:
+     st.image("img1.png")
+
     
 
